@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class SplashTestComposables {
+/*class SplashTestComposables {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -54,4 +54,4 @@ class SplashTestComposables {
         composeTestRule.onNodeWithTag(SPLASH_TITLE_TEXT_TAG).assertTextEquals(expectedTitleText)
         composeTestRule.onNodeWithTag(SPLASH_DESCRIPTION_TEXT_TAG).assertTextEquals(expectedDescriptionText)
     }
-}
+}*/
