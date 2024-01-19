@@ -17,4 +17,10 @@
         android:label="SplashFragmentWithCompose"
         tools:layout="@layout/fragment_splash_compose_view" />
 
+    <fragment
+        android:id="@+id/movieDetailsView"
+        android:name="net.arx.helloworldarx.ui.movieDetails.MovieDetailsFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
 </navigation>
