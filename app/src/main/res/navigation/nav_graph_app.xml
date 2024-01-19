@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/splash_nav_graph"
-    app:startDestination="@+id/splashFragmentWithCompose">
+    app:startDestination="@+id/movieDetailsView"> <!-- TODO You can add your screen id here in order to launch the app on your screen -->
 
     <fragment
         android:id="@+id/splashFragment"
