@@ -64,14 +64,14 @@ android {
         create("dev") {
             dimension = "env"
             resValue("string", "app_name", "Hello World Arx Dev")
-            buildConfigField("String", "TMDB_HOST_NAME", "\"api.themoviedb.org\"")
+            buildConfigField("String", "TMDB_HOST_NAME", "\"https://api.themoviedb.org\"")
             applicationIdSuffix = ".dev"
             signingConfig = signingConfigs.getByName("debug")
         }
         create("prod") {
             dimension = "env"
             resValue("string", "app_name", "Hello World Arx")
-            buildConfigField("String", "TMDB_HOST_NAME", "\"api.themoviedb.org\"")
+            buildConfigField("String", "TMDB_HOST_NAME", "\"https://api.themoviedb.org\"")
             signingConfig = signingConfigs.getByName("release")
         }
     }
