@@ -8,7 +8,7 @@ import net.arx.helloworldarx.databinding.FragmentSplashComposeViewBinding
 import net.arx.helloworldarx.ui.base.BaseFragment
 import net.arx.helloworldarx.ui.base.StatusBarType
 import net.arx.helloworldarx.ui.base.ViewMode
-import net.arx.helloworldarx.ui.splash.composable.SplashScreen
+//import net.arx.helloworldarx.ui.splash.composable.SplashScreen
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
 
 @AndroidEntryPoint
