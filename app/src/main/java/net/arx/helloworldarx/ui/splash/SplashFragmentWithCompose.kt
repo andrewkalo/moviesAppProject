@@ -33,7 +33,7 @@ class SplashFragmentWithCompose : BaseFragment<FragmentSplashComposeViewBinding>
         with(binding) {
             composeView.setContent {
                 HelloWorldArxTheme {
-                    SplashScreen(viewModel = viewModel)
+                    //SplashScreen(viewModel = viewModel)
                 }
             }
         }

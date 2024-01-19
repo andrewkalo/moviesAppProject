@@ -1,5 +1,5 @@
 package net.arx.helloworldarx.ui.splash
-/* TODO, Deferentially not :)
+/* TODO, Definitely not :)
 
 import android.content.res.Resources
 import androidx.compose.runtime.mutableStateOf
