@@ -22,5 +22,10 @@
         android:name="net.arx.helloworldarx.ui.movieDetails.MovieDetailsFragment"
         android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/moviesCategory"
+        android:name="net.arx.helloworldarx.ui.movieDetails.MovieDetailsFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
 
 </navigation>
