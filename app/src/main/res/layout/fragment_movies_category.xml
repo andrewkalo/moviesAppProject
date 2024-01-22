@@ -8,13 +8,12 @@
     android:background="@color/white"
     android:orientation="horizontal">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginBottom="50dp"
         android:background="@color/teal_200"
-        android:orientation="horizontal"
         tools:ignore="MissingConstraints">
 
         <ImageButton
@@ -38,7 +37,7 @@
 
         </TextView>
 
-    </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/movieCategName"
@@ -54,6 +53,15 @@
         tools:layout_editor_absoluteY="70dp">
 
     </TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        tools:layout_editor_absoluteY="140dp"
+        tools:ignore="MissingConstraints">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
