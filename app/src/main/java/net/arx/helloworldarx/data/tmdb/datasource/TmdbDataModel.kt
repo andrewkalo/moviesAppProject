@@ -48,3 +48,17 @@ data class TmdbDataModel(
     @Json(name = "vote_count")
     val voteCount: Int
 )
+
+@JsonClass(generateAdapter = true)
+data class Movie(
+    @Json(name = "id")
+    val id: Int,
+    @Json(name = "title")
+    val title: String,
+    @Json(name = "poster_path")
+    val posterPath: String?
+)
+
+data class MovieResponse(
+    val results: List<Movie>
+)

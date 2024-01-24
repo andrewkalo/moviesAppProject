@@ -14,12 +14,12 @@ class TmdbDataSourceImpl @Inject constructor(
         return tmdbApi.fetchMovieDetails(movie)
     }
 
-    override suspend fun getTopMovies() {
-        tmdbApi.getTopMovies()
+    override suspend fun getTopMovies(apiKey: String, page: Int) {
+        tmdbApi.getTopMovies(apiKey, page)
     }
 
-    override suspend fun getPopularMovies() {
-        tmdbApi.getPopularMovies()
+    override suspend fun getPopularMovies(apiKey: String, page: Int) {
+        tmdbApi.getPopularMovies(apiKey, page)
     }
     
 
