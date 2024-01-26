@@ -12,7 +12,6 @@ import net.arx.helloworldarx.ui.base.BaseFragment
 import net.arx.helloworldarx.ui.movieDetails.MovieDetailsViewModel
 import net.arx.helloworldarx.ui.splash.SplashViewModel
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import net.arx.helloworldarx.ui.moviesCategory.model.MoviesCategoryUiState
 import net.arx.helloworldarx.ui.splash.model.SplashUiState
@@ -26,6 +25,11 @@ class MoviesCategoryFragment : BaseFragment<FragmentDashboardBinding>(){
     override fun getStatusBarType(): StatusBarType = StatusBarType.LIGHT
 
     override fun getViewMode(): ViewMode = ViewMode.FULLSCREEN
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
 
 
     private fun setupViews() {
