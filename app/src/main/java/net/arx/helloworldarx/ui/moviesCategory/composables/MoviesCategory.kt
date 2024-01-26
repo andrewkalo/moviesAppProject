@@ -24,11 +24,15 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import net.arx.helloworldarx.R
 import net.arx.helloworldarx.ui.movieDetails.MovieDetailsViewModel
 
 
 class MoviesCategory : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_movies_category)
@@ -39,6 +43,13 @@ class MoviesCategory : AppCompatActivity() {
             //val Intent = Intent(this, dashBoard::class.java)
             //startActivity(Intent)
         }
+
+        recyclerView = findViewById(R.id.recyclerViewCategories)
+
+        val linearLayoutManager = LinearLayoutManager(applicationContext)
+        recyclerView.layoutManager = linearLayoutManager
+
+        
     }
 }
 

@@ -27,6 +27,7 @@ class MoviesCategoryFragment : BaseFragment<FragmentDashboardBinding>(){
 
     override fun getViewMode(): ViewMode = ViewMode.FULLSCREEN
 
+
     private fun setupViews() {
         //Add View related code here
 
