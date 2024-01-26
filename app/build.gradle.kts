@@ -5,6 +5,7 @@ plugins {
     kotlin("android")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -65,6 +66,7 @@ android {
             dimension = "env"
             resValue("string", "app_name", "Hello World Arx Dev")
             buildConfigField("String", "TMDB_HOST_NAME", "\"https://api.themoviedb.org\"")
+            buildConfigField("String","TMDB_IMAGES_HOST_NAME","\"https://image.tmdb.org\"")
             applicationIdSuffix = ".dev"
             signingConfig = signingConfigs.getByName("debug")
         }
@@ -72,6 +74,7 @@ android {
             dimension = "env"
             resValue("string", "app_name", "Hello World Arx")
             buildConfigField("String", "TMDB_HOST_NAME", "\"https://api.themoviedb.org\"")
+            buildConfigField("String","TMDB_IMAGES_HOST_NAME","\"https://image.tmdb.org\"")
             signingConfig = signingConfigs.getByName("release")
         }
     }
@@ -165,4 +168,20 @@ dependencies {
     androidTestImplementation("io.mockk:mockk:1.13.3")
     androidTestImplementation("io.mockk:mockk-android:1.13.3")
     testImplementation("org.junit.jupiter:junit-jupiter")
+
+
+    //Room
+    val roomVersion by extra {"2.6.1"}
+    implementation("androidx.room:room-runtime:${roomVersion}")
+    annotationProcessor("androidx.room:room-compiler:${roomVersion}")
+    kapt("androidx.room:room-compiler:${roomVersion}")
+    implementation("androidx.room:room-ktx:${roomVersion}")
+
+
+    //Glide for loading images
+    val glideVersion by extra {"4.12.0"}
+    implementation("com.github.bumptech.glide:glide:${glideVersion}")
+    annotationProcessor("com.github.bumptech.glide:compiler:${glideVersion}")
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+
 }
