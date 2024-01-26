@@ -1,4 +1,4 @@
-package net.arx.helloworldarx.data.tmdb.model
+package net.arx.helloworldarx.data.tmdb.datasource
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -69,3 +69,17 @@ data class RemoteTmdbMovieModel(
         )
     }
 }
+
+@JsonClass(generateAdapter = true)
+data class Movie(
+    @Json(name = "id")
+    val id: Int,
+    @Json(name = "title")
+    val title: String,
+    @Json(name = "poster_path")
+    val posterPath: String?
+)
+
+data class MovieResponse(
+    val results: List<Movie>
+)
