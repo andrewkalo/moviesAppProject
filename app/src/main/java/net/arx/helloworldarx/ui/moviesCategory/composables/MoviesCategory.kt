@@ -25,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import net.arx.helloworldarx.R
-import net.arx.helloworldarx.data.tmdb.datasource.TmdbDataModel
 import net.arx.helloworldarx.ui.movieDetails.MovieDetailsViewModel
 
 

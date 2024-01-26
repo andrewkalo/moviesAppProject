@@ -1,10 +1,13 @@
 package net.arx.helloworldarx.data.tmdb.datasource
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 
 @JsonClass(generateAdapter = true)
-data class Genre(
+data class RemoteGenre(
     @Json(name = "id")
     val id: Int?,
     @Json(name = "name")
@@ -12,7 +15,9 @@ data class Genre(
 )
 
 @JsonClass(generateAdapter = true)
-data class TmdbDataModel(
+data class RemoteTmdbMovieModel(
+    @Json(name = "id")
+    val id: Int,
     @Json(name = "adult")
     val adult: Boolean,
     @Json(name = "backdrop_path")
@@ -22,11 +27,9 @@ data class TmdbDataModel(
     @Json(name = "genre_ids")
     val genreIds: List<Int>?,
     @Json(name = "genres")
-    val genres: List<Genre>?,
+    val genres: List<RemoteGenre>?,
     @Json(name = "media_type")
     val mediaType: String?,
-    @Json(name = "id")
-    val id: Int,
     @Json(name = "imdb_id")
     val imdbId: String?,
     @Json(name = "original_language")
@@ -46,8 +49,26 @@ data class TmdbDataModel(
     @Json(name = "vote_average")
     val voteAverage: Double,
     @Json(name = "vote_count")
-    val voteCount: Int
-)
+    val voteCount: Int,
+    @Json(name = "success")
+    val success: Boolean = true
+){
+    fun toLocalMovie(): LocalMovie{
+        return LocalMovie(
+            id,
+            overview,
+            title,
+            releaseDate,
+            voteAverage,
+            voteCount,
+            runtime,
+            popularity,
+            originalLanguage,
+            posterPath,
+            success
+        )
+    }
+}
 
 @JsonClass(generateAdapter = true)
 data class Movie(

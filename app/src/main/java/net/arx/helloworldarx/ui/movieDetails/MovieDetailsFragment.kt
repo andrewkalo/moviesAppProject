@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.databinding.FragmentDashboardBinding
 import net.arx.helloworldarx.ui.base.BaseFragment
 import net.arx.helloworldarx.ui.movieDetails.composables.MovieDetailsUI
@@ -19,15 +20,14 @@ class MovieDetailsFragment : BaseFragment<FragmentDashboardBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         //TODO GET MOVIE FROM NAVIGATION ARGS WHEN IT GETS IMPLEMENTED
-        val movieId = "520758"
-
+        val movieId = 520758
         ShowMovieDetailsUI(movieId)
     }
-    private fun ShowMovieDetailsUI(movieId: String){
+    private fun ShowMovieDetailsUI(movieId: Int){
         with(binding){
             movieDetailsView.setContent {
                 HelloWorldArxTheme {
-                    MovieDetailsUI(viewModel,movieId)
+                    MovieDetailsUI(movieId)
                 }
             }
         }
