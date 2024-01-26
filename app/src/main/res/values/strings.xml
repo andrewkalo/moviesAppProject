@@ -11,4 +11,8 @@
 
     <string name="open_at_external_app_not_found">You haven\'t installed the application</string>
 
+
+    <string name="movie_popularity">Popularity</string>
+    <string name="movie_rating">Rating</string>
+
 </resources>
