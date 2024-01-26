@@ -2,9 +2,9 @@ package net.arx.helloworldarx.framework.tmdb.api
 
 
 import net.arx.helloworldarx.data.tmdb.datasource.MovieResponse
+import net.arx.helloworldarx.data.tmdb.datasource.RemoteTmdbMovieModel
 import retrofit2.Response
 import retrofit2.http.Path
-import net.arx.helloworldarx.data.tmdb.model.RemoteTmdbMovieModel
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query

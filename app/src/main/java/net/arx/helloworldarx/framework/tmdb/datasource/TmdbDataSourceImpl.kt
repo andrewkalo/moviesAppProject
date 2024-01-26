@@ -5,7 +5,6 @@ import android.util.Log
 import net.arx.helloworldarx.data.tmdb.datasource.TmdbDataSource
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.data.tmdb.local.TmdbDao
-import net.arx.helloworldarx.data.tmdb.model.RemoteTmdbMovieModel
 import net.arx.helloworldarx.framework.tmdb.api.TmdbApi
 import javax.inject.Inject
 
