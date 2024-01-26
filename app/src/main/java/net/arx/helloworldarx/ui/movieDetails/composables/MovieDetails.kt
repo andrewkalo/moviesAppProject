@@ -24,16 +24,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
-import com.bumptech.glide.integration.ktx.Resource
+import coil.compose.AsyncImage
 import net.arx.helloworldarx.R
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.ui.movieDetails.MovieDetailsViewModel
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTypography
 import net.arx.helloworldarx.usecase.movieDetails.GetMovieDataUseCase
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailsUI(movieId: Int) { //TODO Show loading thingy while fetching data, break it
     val viewModel = hiltViewModel<MovieDetailsViewModel>()
@@ -49,7 +47,7 @@ fun MovieDetailsUI(movieId: Int) { //TODO Show loading thingy while fetching dat
                 })
         }) {
         Column(modifier = Modifier.padding(it)) {
-            GlideImage(
+            AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.5f),

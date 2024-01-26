@@ -157,8 +157,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
 
-    implementation("io.coil-kt:coil-compose:2.0.0")
-
     implementation("androidx.security:security-crypto-ktx:1.1.0-alpha06")
 
     // test
@@ -178,10 +176,9 @@ dependencies {
     implementation("androidx.room:room-ktx:${roomVersion}")
 
 
-    //Glide for loading images
-    val glideVersion by extra {"4.12.0"}
-    implementation("com.github.bumptech.glide:glide:${glideVersion}")
-    annotationProcessor("com.github.bumptech.glide:compiler:${glideVersion}")
-    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+    //Coil for loading images
+    val coilVersion by extra {"2.5.0"}
+    implementation("io.coil-kt:coil:${coilVersion}")
+    implementation("io.coil-kt:coil-compose:${coilVersion}")
 
 }
