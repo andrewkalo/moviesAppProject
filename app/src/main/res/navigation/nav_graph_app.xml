@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/splash_nav_graph"
-    app:startDestination="@+id/movieDetailsView"> <!-- TODO You can add your screen id here in order to launch the app on your screen -->
+    app:startDestination="@+id/moviesCategoryView"> <!-- TODO You can add your screen id here in order to launch the app on your screen -->
 
     <fragment
         android:id="@+id/splashFragment"
@@ -20,12 +20,12 @@
     <fragment
         android:id="@+id/movieDetailsView"
         android:name="net.arx.helloworldarx.ui.movieDetails.MovieDetailsFragment"
-        android:label="Dashboard"
+        android:label="MovieDetails"
         tools:layout="@layout/fragment_movie_details" />
     <fragment
-        android:id="@+id/moviesCategory"
-        android:name="net.arx.helloworldarx.ui.movieDetails.MovieDetailsFragment"
-        android:label="Dashboard"
-        tools:layout="@layout/fragment_movie_details" />
+        android:id="@+id/moviesCategoryView"
+        android:name="net.arx.helloworldarx.ui.moviesCategory.MoviesCategoryFragment"
+        android:label="MoviesCategory"
+        tools:layout="@layout/fragment_movies_category" />
 
 </navigation>

@@ -11,7 +11,7 @@ fun MoviesCategoryUI(numberToShow: MutableState<Int>){
     //TODO YOUR UI GOES HERE
     Row(){
         Text(text="Hello world")
-        Text(text = "This number is from the viewmodel $numberToShow")
+        Text(text = "This number is from the viewmodel ${numberToShow.value}")
     }
 
 }

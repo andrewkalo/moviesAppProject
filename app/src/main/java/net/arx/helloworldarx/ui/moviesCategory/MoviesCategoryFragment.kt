@@ -32,7 +32,7 @@ class MoviesCategoryFragment : BaseFragment<FragmentMoviesCategoryBinding>(){
 
     private fun showMovieCategory(numberFromViewModel: MutableState<Int>){
         with(binding){
-            moviesCategory.setContent {
+            moviesCategoryView.setContent {
                 HelloWorldArxTheme {
                     MoviesCategoryUI(numberFromViewModel) //TODO This is where we call the composable
                 }
