@@ -25,11 +25,4 @@ class TmdbRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    /*
-    Dinei error
-    override suspend fun fetchMoviesByCategory(categoryId: Int): TmdbMoviesByCategoryResult {
-        val mapper = TmdbResponseMapper()
-        return mapper(dataSource.fetchMoviesByCategory(categoryId))
-    }
-    */
 }
