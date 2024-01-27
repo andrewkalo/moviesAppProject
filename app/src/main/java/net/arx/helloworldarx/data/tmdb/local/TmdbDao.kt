@@ -20,10 +20,10 @@ interface TmdbDao {
     suspend fun getLocalMovie(movieId: Int): LocalMovie
 
 
-    @Query("SELECT * FROM movies ORDER BY voteAverage")
+    @Query("SELECT * FROM movies ORDER BY voteAverage DESC")
     suspend fun getTopMovies(apiKey: String, page: Int): LocalMovie
 
-    @Query("SELECT * FROM movies ORDER BY popularity")
+    @Query("SELECT * FROM movies ORDER BY popularity DESC")
     suspend fun getPopularMovies(apiKey: String, page: Int): LocalMovie
 
 
