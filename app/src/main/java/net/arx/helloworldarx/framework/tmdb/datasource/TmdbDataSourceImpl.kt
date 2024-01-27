@@ -5,6 +5,7 @@ import android.util.Log
 import net.arx.helloworldarx.data.tmdb.datasource.TmdbDataSource
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.data.tmdb.local.LocalMovieCredits
+import net.arx.helloworldarx.data.tmdb.local.LocalMoviesByCategory
 import net.arx.helloworldarx.data.tmdb.local.TmdbDao
 import net.arx.helloworldarx.framework.tmdb.api.TmdbApi
 import javax.inject.Inject
@@ -33,8 +34,20 @@ class TmdbDataSourceImpl @Inject constructor(
         return tmdbApi.fetchMovieCredits(movieId).toLocalCredits()
     }
 
+    override suspend fun fetchMoviesByCategory(categoryId: Int): List<LocalMoviesByCategory> {
+        TODO("Not yet implemented")
+    }
 
-    override suspend fun getTopMovies(): List<LocalMovie>? {
+    override suspend fun getTopMovies(apiKey: String, page: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPopularMovies(apiKey: String, page: Int) {
+        TODO("Not yet implemented")
+    }
+
+    // To override dinei lathos
+    suspend fun getTopMovies(): List<LocalMovie>? {
         val remoteMovieList = tmdbApi.getTopMovies()
         val remoteMovie = remoteMovieList.first()
         tmdbDao.storeLocalMovie(remoteMovie.toLocalMovie())
@@ -45,7 +58,8 @@ class TmdbDataSourceImpl @Inject constructor(
         return list
     }
 
-    override suspend fun getPopularMovies(): List<LocalMovie>? {
+    // To override dinei lathos
+    suspend fun getPopularMovies(): List<LocalMovie>? {
         val remoteMovieList = tmdbApi.getPopularMovies()
         val remoteMovie = remoteMovieList.first()
         tmdbDao.storeLocalMovie(remoteMovie.toLocalMovie())
