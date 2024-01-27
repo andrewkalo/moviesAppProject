@@ -21,11 +21,11 @@
         android:id="@+id/movieDetailsView"
         android:name="net.arx.helloworldarx.ui.movieDetails.MovieDetailsFragment"
         android:label="Dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_movie_details" />
     <fragment
         android:id="@+id/moviesCategory"
         android:name="net.arx.helloworldarx.ui.movieDetails.MovieDetailsFragment"
         android:label="Dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_movie_details" />
 
 </navigation>

@@ -10,11 +10,16 @@ interface TmdbDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun storeLocalMovie(movie: LocalMovie)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun storeLocalMovieCredits(credits: List<LocalMovieCredits>)
+
     @Query("SELECT EXISTS(SELECT * FROM movies where id=:movieId)")
     suspend fun checkIfMovieExistsLocally(movieId: Int): Boolean
 
     @Query("SELECT * FROM movies where id=:movieId")
     suspend fun getLocalMovie(movieId: Int): LocalMovie
+
+
 
 }
 

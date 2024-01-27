@@ -2,6 +2,7 @@ package net.arx.helloworldarx.data.tmdb.repository
 
 import net.arx.helloworldarx.data.tmdb.datasource.TmdbDataSource
 import net.arx.helloworldarx.data.tmdb.mapper.TmdbResponseMapper
+import net.arx.helloworldarx.domain.tmdb.repository.TmdbMovieCreditsResult
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbMovieResult
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbRepository
 import javax.inject.Inject
@@ -9,8 +10,13 @@ import javax.inject.Inject
 class TmdbRepositoryImpl @Inject constructor(
     private val dataSource: TmdbDataSource
 ) : TmdbRepository {
-    override suspend fun fetchMovie(movie: Int): TmdbMovieResult {
+    override suspend fun fetchMovie(movieId: Int): TmdbMovieResult {
         val mapper = TmdbResponseMapper()
-        return mapper(dataSource.fetchMovie(movie))
+        return mapper(dataSource.fetchMovie(movieId))
+    }
+
+    override suspend fun fetchMovieCredits(movieId: Int): TmdbMovieCreditsResult {
+        val mapper = TmdbResponseMapper()
+        return mapper(dataSource.fetchMovieCredits(movieId))
     }
 }

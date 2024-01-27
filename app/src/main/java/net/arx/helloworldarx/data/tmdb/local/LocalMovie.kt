@@ -14,6 +14,7 @@ data class LocalMovie(
     val runtime: Int?,
     val popularity: Double,
     val originalLanguage: String,
-    val imagePath: String?,
+    val poster_path: String?,
+    val backdrop_path: String?,
     val success: Boolean
 )

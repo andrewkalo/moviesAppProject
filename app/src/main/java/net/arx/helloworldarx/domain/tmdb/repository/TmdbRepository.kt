@@ -2,6 +2,7 @@ package net.arx.helloworldarx.domain.tmdb.repository
 
 
 interface TmdbRepository {
-    suspend fun fetchMovie(movie: Int): TmdbMovieResult
+    suspend fun fetchMovie(movieId: Int): TmdbMovieResult
+    suspend fun fetchMovieCredits(movieId: Int): TmdbMovieCreditsResult
 
 }

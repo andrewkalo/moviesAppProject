@@ -65,6 +65,7 @@ data class RemoteTmdbMovieModel(
             popularity,
             originalLanguage,
             posterPath,
+            backdropPath,
             success
         )
     }

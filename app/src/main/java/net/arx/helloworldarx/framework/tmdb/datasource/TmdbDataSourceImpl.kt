@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import net.arx.helloworldarx.data.tmdb.datasource.TmdbDataSource
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
+import net.arx.helloworldarx.data.tmdb.local.LocalMovieCredits
 import net.arx.helloworldarx.data.tmdb.local.TmdbDao
 import net.arx.helloworldarx.framework.tmdb.api.TmdbApi
 import javax.inject.Inject
@@ -26,6 +27,12 @@ class TmdbDataSourceImpl @Inject constructor(
             remoteMovie.toLocalMovie()
         }
     }
+
+    override suspend fun fetchMovieCredits(movieId: Int): List<LocalMovieCredits> {
+        tmdbDao.storeLocalMovieCredits(tmdbApi.fetchMovieCredits(movieId).toLocalCredits())
+        return tmdbApi.fetchMovieCredits(movieId).toLocalCredits()
+    }
+
 
     override suspend fun getTopMovies(apiKey: String, page: Int) {
         tmdbApi.getTopMovies(apiKey, page)
