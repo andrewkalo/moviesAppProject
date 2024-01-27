@@ -2,71 +2,44 @@ package net.arx.helloworldarx.ui.moviesCategory
 
 import android.os.Bundle
 import android.view.View
+import androidx.compose.runtime.MutableState
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.core.view.isVisible
-import net.arx.helloworldarx.databinding.FragmentDashboardBinding
 import net.arx.helloworldarx.ui.base.BaseFragment
-//import net.arx.helloworldarx.ui.base.StatusBarType
-//import net.arx.helloworldarx.ui.base.ViewMode
-import net.arx.helloworldarx.ui.movieDetails.MovieDetailsViewModel
-import net.arx.helloworldarx.ui.splash.SplashViewModel
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
-import androidx.lifecycle.Observer
-import net.arx.helloworldarx.ui.moviesCategory.model.MoviesCategoryUiState
-import net.arx.helloworldarx.ui.splash.model.SplashUiState
-
-class MoviesCategoryFragment : BaseFragment<FragmentDashboardBinding>(){
+import net.arx.helloworldarx.databinding.FragmentMoviesCategoryBinding
+import net.arx.helloworldarx.ui.moviesCategory.composables.MoviesCategoryUI
 
 
-    //private val viewModel: MoviesCategoryViewModel by viewModels()
-    override fun getViewBinding(): FragmentDashboardBinding = FragmentDashboardBinding.inflate(layoutInflater)
+@AndroidEntryPoint
+class MoviesCategoryFragment : BaseFragment<FragmentMoviesCategoryBinding>(){
 
-    override fun getStatusBarType(): StatusBarType = StatusBarType.LIGHT
 
-    override fun getViewMode(): ViewMode = ViewMode.FULLSCREEN
+    private val viewModel: MoviesCategoryViewModel by viewModels()
+    override fun getViewBinding(): FragmentMoviesCategoryBinding = FragmentMoviesCategoryBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //TODO GET CategoryId/Name or something FROM NAVIGATION ARGS WHEN IT GETS IMPLEMENTED
+        val categoryId = 520758
+
+        val numberFromViewModel = viewModel.variableForUi
+
+        showMovieCategory(numberFromViewModel)
+
 
     }
 
-
-    private fun setupViews() {
-        //Add View related code here
-
-    }
-
-    /*
-    private fun setupObservers() {
-        with(viewModel) {
-            moviesCategoryUi.observe(viewLifecycleOwner, Observer(::handleSplashUiItem))
+    private fun showMovieCategory(numberFromViewModel: MutableState<Int>){
+        with(binding){
+            moviesCategory.setContent {
+                HelloWorldArxTheme {
+                    MoviesCategoryUI(numberFromViewModel) //TODO This is where we call the composable
+                }
+            }
         }
     }
 
-    private fun handleMoviesCategoryUiItem(MoviesCategoryUiState: MoviesCategoryUiState) {
-        when (MoviesCategoryUiState) {
-            is MoviesCategoryUiState.DefaultUiState ->
-                handleMoviesCategoryDefaultUiState(MoviesCategoryUiState = MoviesCategoryUiState)
-            MoviesCategoryUiState.ErrorUiState -> {}
-            MoviesCategoryUiState.LoadingUiState -> handleMoviesCategoryLoadingUiState()
-        }
-    }
-
-
-    private fun handleMoviesCategoryDefaultUiState(moviesCategory: MoviesCategoryUiState.DefaultUiState) {
-        with(binding) {
-
-        }
-    }
-
-    private fun handleMoviesCategoryLoadingUiState() {
-        with(binding) {
-
-        }
-    }
-
-    */
 
 }
 
