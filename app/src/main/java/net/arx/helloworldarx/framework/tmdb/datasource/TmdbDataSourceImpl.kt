@@ -34,12 +34,26 @@ class TmdbDataSourceImpl @Inject constructor(
     }
 
 
-    override suspend fun getTopMovies(apiKey: String, page: Int) {
-        tmdbApi.getTopMovies(apiKey, page)
+    override suspend fun getTopMovies(): List<LocalMovie>? {
+        val remoteMovieList = tmdbApi.getTopMovies()
+        val remoteMovie = remoteMovieList.first()
+        tmdbDao.storeLocalMovie(remoteMovie.toLocalMovie())
+        var list : List<LocalMovie>? = null
+        if (list != null) {
+            list = list +  remoteMovie.toLocalMovie()
+        }
+        return list
     }
 
-    override suspend fun getPopularMovies(apiKey: String, page: Int) {
-        tmdbApi.getPopularMovies(apiKey, page)
+    override suspend fun getPopularMovies(): List<LocalMovie>? {
+        val remoteMovieList = tmdbApi.getPopularMovies()
+        val remoteMovie = remoteMovieList.first()
+        tmdbDao.storeLocalMovie(remoteMovie.toLocalMovie())
+        var list : List<LocalMovie>? = null
+        if (list != null) {
+            list = list +  remoteMovie.toLocalMovie()
+        }
+        return list
     }
 
 

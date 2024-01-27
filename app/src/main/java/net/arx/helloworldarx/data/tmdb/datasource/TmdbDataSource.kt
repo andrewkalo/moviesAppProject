@@ -8,8 +8,7 @@ interface TmdbDataSource {
 
     suspend fun fetchMovieCredits(movieId: Int): List<LocalMovieCredits>
 
-
-     suspend fun getTopMovies(apiKey: String, page: Int)
-     suspend fun getPopularMovies(apiKey: String, page: Int)
+     suspend fun getTopMovies(): List <LocalMovie>?
+     suspend fun getPopularMovies(): List <LocalMovie>?
      // Allh mia get gia thn epomenh kathgoria
 }
