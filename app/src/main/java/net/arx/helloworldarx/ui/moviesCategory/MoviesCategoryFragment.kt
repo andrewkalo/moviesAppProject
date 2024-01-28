@@ -18,6 +18,9 @@ class MoviesCategoryFragment : BaseFragment<FragmentMoviesCategoryBinding>(){
     private val viewModel: MoviesCategoryViewModel by viewModels()
     override fun getViewBinding(): FragmentMoviesCategoryBinding = FragmentMoviesCategoryBinding.inflate(layoutInflater)
 
+    /*
+    error
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //TODO GET CategoryId/Name or something FROM NAVIGATION ARGS WHEN IT GETS IMPLEMENTED
@@ -34,11 +37,14 @@ class MoviesCategoryFragment : BaseFragment<FragmentMoviesCategoryBinding>(){
         with(binding){
             moviesCategoryView.setContent {
                 HelloWorldArxTheme {
-                    MoviesCategoryUI(numberFromViewModel) //TODO This is where we call the composable
+                    MoviesCategoryUI(numberFromViewModel,
+                        viewModel.movieData) //TODO This is where we call the composable
                 }
             }
         }
     }
+    */
+
 
 
 }
