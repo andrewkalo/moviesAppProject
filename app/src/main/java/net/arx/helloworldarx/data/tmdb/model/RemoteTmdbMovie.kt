@@ -69,6 +69,8 @@ data class RemoteTmdbMovieModel(
             success
         )
     }
+
+
 }
 
 @JsonClass(generateAdapter = true)

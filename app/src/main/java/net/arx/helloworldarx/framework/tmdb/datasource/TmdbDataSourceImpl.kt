@@ -38,17 +38,23 @@ class TmdbDataSourceImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTopMovies(apiKey: String, page: Int) {
-        TODO("Not yet implemented")
+    override suspend fun fetchTopMovies(page: Int): List<LocalMovie> {
+        var list = tmdbApi.fetchTopMovies(page)
+        var counter = 0
+        while (counter <= list.size){
+            tmdbDao.storeLocalMovie(list[counter].toLocalMovie())
+            counter++
+        }
+        return list.map { it.toLocalMovie() }
     }
 
-    override suspend fun getPopularMovies(apiKey: String, page: Int) {
+    override suspend fun fetchPopularMovies(page: Int) {
         TODO("Not yet implemented")
     }
 
     // To override dinei lathos
-    suspend fun getTopMovies(): List<LocalMovie>? {
-        val remoteMovieList = tmdbApi.getTopMovies()
+    /*suspend fun getTopMovies(): List<LocalMovie>? {
+        val remoteMovieList = tmdbApi.fetchTopMovies()
         val remoteMovie = remoteMovieList.first()
         tmdbDao.storeLocalMovie(remoteMovie.toLocalMovie())
         var list : List<LocalMovie>? = null
@@ -56,11 +62,11 @@ class TmdbDataSourceImpl @Inject constructor(
             list = list +  remoteMovie.toLocalMovie()
         }
         return list
-    }
+    }*/
 
     // To override dinei lathos
-    suspend fun getPopularMovies(): List<LocalMovie>? {
-        val remoteMovieList = tmdbApi.getPopularMovies()
+    /*suspend fun getPopularMovies(): List<LocalMovie>? {
+        val remoteMovieList = tmdbApi.fetchPopularMovies()
         val remoteMovie = remoteMovieList.first()
         tmdbDao.storeLocalMovie(remoteMovie.toLocalMovie())
         var list : List<LocalMovie>? = null
@@ -68,7 +74,7 @@ class TmdbDataSourceImpl @Inject constructor(
             list = list +  remoteMovie.toLocalMovie()
         }
         return list
-    }
+    }*/
 
 
 }

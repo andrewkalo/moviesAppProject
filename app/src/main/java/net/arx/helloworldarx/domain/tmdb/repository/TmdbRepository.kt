@@ -6,4 +6,6 @@ interface TmdbRepository {
     suspend fun fetchMovieCredits(movieId: Int): TmdbMovieCreditsResult
 
     suspend fun fetchMoviesByCategory(categoryId: Int): TmdbMoviesByCategoryResult
+
+    suspend fun  fetchTopMovies(page: Int): TmdbListMovieResult
 }

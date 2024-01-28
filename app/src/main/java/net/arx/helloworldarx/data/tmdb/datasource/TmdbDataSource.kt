@@ -11,7 +11,7 @@ interface TmdbDataSource {
 
 
     suspend fun fetchMoviesByCategory(categoryId: Int): List<LocalMoviesByCategory>
-     suspend fun getTopMovies(apiKey: String, page: Int)
-     suspend fun getPopularMovies(apiKey: String, page: Int)
-     // Allh mia get gia thn epomenh kathgoria
+    suspend fun fetchTopMovies(page: Int): List<LocalMovie>
+    suspend fun fetchPopularMovies(page: Int)
+// Allh mia get gia thn epomenh kathgoria
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/splash_nav_graph"
-    app:startDestination="@+id/moviesCategoryView"> <!-- TODO You can add your screen id here in order to launch the app on your screen -->
+    app:startDestination="@+id/moviesDashboardView"> <!-- TODO You can add your screen id here in order to launch the app on your screen -->
 
     <fragment
         android:id="@+id/splashFragment"
@@ -16,6 +16,12 @@
         android:name="net.arx.helloworldarx.ui.splash.SplashFragmentWithCompose"
         android:label="SplashFragmentWithCompose"
         tools:layout="@layout/fragment_splash_compose_view" />
+
+    <fragment
+        android:id="@+id/moviesDashboardView"
+        android:name="net.arx.helloworldarx.ui.Dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/movieDetailsView"
