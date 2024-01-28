@@ -1,7 +1,6 @@
 package net.arx.helloworldarx.data.tmdb.repository
 
 import net.arx.helloworldarx.data.tmdb.datasource.TmdbDataSource
-import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.data.tmdb.mapper.TmdbResponseMapper
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbListMovieResult
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbMovieCreditsResult
