@@ -9,6 +9,7 @@ import net.arx.helloworldarx.ui.Dashboard.composables.DashboardUI
 import net.arx.helloworldarx.ui.base.BaseFragment
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
 
+
 @AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
@@ -17,7 +18,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.fetchTopMovies()
         showDashboardUI()
     }
 
@@ -25,7 +26,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
         with(binding){
             DashboardView.setContent {
                 HelloWorldArxTheme {
-                    DashboardUI()
+                    DashboardUI(
+                        viewModel.listOfTopMovies
+                    )
                 }
             }
         }

@@ -1,6 +1,7 @@
 package net.arx.helloworldarx.data.tmdb.repository
 
 import net.arx.helloworldarx.data.tmdb.datasource.TmdbDataSource
+import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.data.tmdb.mapper.TmdbResponseMapper
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbListMovieResult
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbMovieCreditsResult
@@ -22,8 +23,9 @@ class TmdbRepositoryImpl @Inject constructor(
         return mapper(dataSource.fetchMovieCredits(movieId))
     }
 
-    override suspend fun fetchTopMovies(page: Int) : TmdbListMovieResult {
-        TODO("Not yet implemented")
+    override suspend fun fetchTopMovies() : TmdbListMovieResult {
+        val localMovies: List<LocalMovie> = dataSource.fetchTopMovies()
+        return TmdbListMovieResult.SuccessListMovieResult(localMovies)
     }
 
     override suspend fun fetchMoviesByCategory(categoryId: Int): TmdbMoviesByCategoryResult {

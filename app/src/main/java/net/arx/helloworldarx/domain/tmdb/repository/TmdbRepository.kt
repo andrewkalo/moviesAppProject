@@ -7,5 +7,5 @@ interface TmdbRepository {
 
     suspend fun fetchMoviesByCategory(categoryId: Int): TmdbMoviesByCategoryResult
 
-    suspend fun  fetchTopMovies(page: Int): TmdbListMovieResult
+    suspend fun  fetchTopMovies(): TmdbListMovieResult
 }

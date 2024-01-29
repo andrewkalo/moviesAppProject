@@ -26,11 +26,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import net.arx.helloworldarx.data.tmdb.local.LocalMovie
+import androidx.compose.runtime.State
+import androidx.compose.runtime.snapshots.SnapshotStateList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "ProduceStateDoesNotAssignValue")
 @Composable
-fun DashboardUI() {
+fun DashboardUI(listOfTopMovies: SnapshotStateList<LocalMovie?>) {
 
 
 
@@ -91,14 +94,16 @@ fun DashboardUI() {
                     }
                 }
                 LazyRow {
-                    items(imageList) { image ->
-                        AsyncImage(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(0.5f),
-                            model = "https://image.tmdb.org/t/p/w500/${image}",
-                            contentDescription = null,
-                        )
+                    items(listOfTopMovies) { movie ->
+                        if (movie != null) {
+                            AsyncImage(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(0.5f),
+                                model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
+                                contentDescription = null,
+                            )
+                        }
                     }
                 }
             }

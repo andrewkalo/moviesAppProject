@@ -26,7 +26,7 @@ interface TmdbApi {
 
     @Headers("Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMjlhOGJhZDA0ODNhOWVmZGYxZDc0ZDZlNGE0NDVhYSIsInN1YiI6IjY1OWQxOTZjN2ZjYWIzMDI1ZDQwODVlZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.n4Z2osV0_k3yHJr3ojA38m4kKV3nWzYVCBk-sa8ergc")
     @GET("/3/movie/top_rated")
-    suspend fun fetchTopMovies(page: Int): List <RemoteTmdbMovieModel>
+    suspend fun fetchTopMovies(): List <RemoteTmdbMovieModel>
     //@Query("api_key") apiKey: String, @Query("page") page: Int
     @Headers("Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMjlhOGJhZDA0ODNhOWVmZGYxZDc0ZDZlNGE0NDVhYSIsInN1YiI6IjY1OWQxOTZjN2ZjYWIzMDI1ZDQwODVlZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.n4Z2osV0_k3yHJr3ojA38m4kKV3nWzYVCBk-sa8ergc")
     @GET("/3/movie/popular")

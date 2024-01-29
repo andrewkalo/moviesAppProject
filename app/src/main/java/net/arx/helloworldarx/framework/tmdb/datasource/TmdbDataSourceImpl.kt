@@ -38,8 +38,8 @@ class TmdbDataSourceImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchTopMovies(page: Int): List<LocalMovie> {
-        var list = tmdbApi.fetchTopMovies(page)
+    override suspend fun fetchTopMovies(): List<LocalMovie> {
+        var list = tmdbApi.fetchTopMovies()
         var counter = 0
         while (counter <= list.size){
             tmdbDao.storeLocalMovie(list[counter].toLocalMovie())
@@ -48,7 +48,7 @@ class TmdbDataSourceImpl @Inject constructor(
         return list.map { it.toLocalMovie() }
     }
 
-    override suspend fun fetchPopularMovies(page: Int) {
+    override suspend fun fetchPopularMovies(): List<LocalMovie> {
         TODO("Not yet implemented")
     }
 
