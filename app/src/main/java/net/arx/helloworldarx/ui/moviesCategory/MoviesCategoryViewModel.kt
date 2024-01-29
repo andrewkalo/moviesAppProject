@@ -6,13 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.ui.base.BaseViewModel
-import net.arx.helloworldarx.usecase.moviesCategory.FetchMoviesByCategoryUseCase
 import net.arx.helloworldarx.usecase.moviesCategory.GetLocalMoviesByCategoryUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class MoviesCategoryViewModel @Inject constructor(
-    private val fetchMoviesBycategoryUseCase:  FetchMoviesByCategoryUseCase,
     private val getLocalMoviesByCategoryUseCase: GetLocalMoviesByCategoryUseCase
 ):BaseViewModel(){
 

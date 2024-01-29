@@ -1,5 +1,7 @@
 package net.arx.helloworldarx.ui.moviesCategory.composables
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -41,9 +43,12 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImage
 import net.arx.helloworldarx.R
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
+import net.arx.helloworldarx.ui.Dashboard.DashboardFragment
 import net.arx.helloworldarx.ui.movieDetails.composables.ActorView
 import net.arx.helloworldarx.ui.moviesCategory.model.MoviesCategoryUiType
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTypography
@@ -67,7 +72,9 @@ fun MoviesCategoryUI(movieData: State<LocalMovie?>) {
                         titleContentColor = MaterialTheme.colorScheme.primary,
                     ),
                     navigationIcon = {
-                        IconButton(onClick = { /*TODO Implement back*/ }) {
+                        IconButton(onClick = {
+
+                        }) {
                             Icon(Icons.Default.ArrowBack, contentDescription = null)
                         }
                     })
@@ -81,9 +88,12 @@ fun MoviesCategoryUI(movieData: State<LocalMovie?>) {
                         model = "https://image.tmdb.org/t/p/w500/${movieData.value?.backdrop_path}",
                         contentDescription = null
                     )
-                    Text(
-                        text = "Name of title"
-                    )
+                    movieData.value?.let {it1 ->
+                        Text(
+                            text = it1.title,
+                            style = HelloWorldArxTypography.headlineLarge
+                        )
+                    }
                 }
                 item {
                     Spacer(modifier = androidx.compose.ui.Modifier.height(10.dp))
@@ -114,21 +124,34 @@ fun MoviesCategoryUI(movieData: State<LocalMovie?>) {
 
         @Composable
         fun MoviesCategoryErrorContent() {
-            Column(
-                modifier = androidx.compose.ui.Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // Dokimastiko
-                CircularProgressIndicator(
-                    modifier = androidx.compose.ui.Modifier
-                        .padding(bottom = SpacingCustom_24dp)
-                        .fillMaxWidth(0.2f)
-                        .aspectRatio(1f),
-                    strokeWidth = SpacingQuarter_4dp,
-                    color = MaterialTheme.colorScheme.primary
-                )
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        // Dokimastiko onoma titlou
+                        title = { Text(text = "Top 10 movies") }, //TODO MAKE IT NON NULLABLE BY ADDING A LOADING STATE
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            titleContentColor = MaterialTheme.colorScheme.primary,
+                        ),
+                        navigationIcon = {
+                            IconButton(onClick = { /*TODO Implement back*/ }) {
+                                Icon(Icons.Default.ArrowBack, contentDescription = null)
+                            }
+                        })
+                }){
+                Column(modifier = androidx.compose.ui.Modifier.padding(it)) {
+                    // Dokimastiko
+                    CircularProgressIndicator(
+                        modifier = androidx.compose.ui.Modifier
+                            .padding(bottom = SpacingCustom_24dp)
+                            .fillMaxWidth(0.2f)
+                            .aspectRatio(1f),
+                        strokeWidth = SpacingQuarter_4dp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
+
         }
 
 
@@ -162,8 +185,15 @@ fun MoviesCategoryUI(movieData: State<LocalMovie?>) {
                     )
                 }
                 Spacer(modifier = androidx.compose.ui.Modifier.height(10.dp))
-                Text(text = "This list is empty")
+                Column(
+                    modifier = androidx.compose.ui.Modifier.padding(it)
+                ){
+                        Text(text = "This list is empty",
+                            style = HelloWorldArxTypography.headlineLarge
+                        )
+                    }
 
+                }
             }
 
 
@@ -212,8 +242,8 @@ fun MoviesCategoryUI(movieData: State<LocalMovie?>) {
                     MoviesCategoryContent(MoviesCategoryUiState = MoviesCategoryUiState)
                 }
             }
-        }
 }
+
 
 
 
