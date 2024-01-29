@@ -1,13 +1,16 @@
 package net.arx.helloworldarx.data.tmdb.repository
 
+import kotlinx.coroutines.flow.Flow
 import net.arx.helloworldarx.data.tmdb.datasource.TmdbDataSource
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.data.tmdb.mapper.TmdbResponseMapper
+import net.arx.helloworldarx.data.tmdb.model.TopRatedMoviesResponse
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbListMovieResult
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbMovieCreditsResult
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbMovieResult
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbMoviesByCategoryResult
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbRepository
+import net.arx.helloworldarx.domain.tmdb.repository.TmdbTopRatedMoviesResult
 import javax.inject.Inject
 
 class TmdbRepositoryImpl @Inject constructor(
@@ -23,9 +26,8 @@ class TmdbRepositoryImpl @Inject constructor(
         return mapper(dataSource.fetchMovieCredits(movieId))
     }
 
-    override suspend fun fetchTopMovies() : TmdbListMovieResult {
-        val localMovies: List<LocalMovie> = dataSource.fetchTopMovies()
-        return TmdbListMovieResult.SuccessListMovieResult(localMovies)
+    override suspend fun getTopRatedMovies(lang: String, page: Int): Flow<TmdbTopRatedMoviesResult<TopRatedMoviesResponse>> {
+        return dataSource.getTopRatedMovies(lang,page)
     }
 
     override suspend fun fetchMoviesByCategory(categoryId: Int): TmdbMoviesByCategoryResult {

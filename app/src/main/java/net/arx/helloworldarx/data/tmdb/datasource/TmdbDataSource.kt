@@ -1,8 +1,11 @@
 package net.arx.helloworldarx.data.tmdb.datasource
 
+import kotlinx.coroutines.flow.Flow
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.data.tmdb.local.LocalMovieCredits
 import net.arx.helloworldarx.data.tmdb.local.LocalMoviesByCategory
+import net.arx.helloworldarx.data.tmdb.model.TopRatedMoviesResponse
+import net.arx.helloworldarx.domain.tmdb.repository.TmdbTopRatedMoviesResult
 
 interface TmdbDataSource {
     suspend fun fetchMovie(movieId: Int): LocalMovie
@@ -11,7 +14,7 @@ interface TmdbDataSource {
 
 
     suspend fun fetchMoviesByCategory(categoryId: Int): List<LocalMoviesByCategory>
-    suspend fun fetchTopMovies(): List<LocalMovie>
+    suspend fun  getTopRatedMovies(lang: String, page: Int): Flow<TmdbTopRatedMoviesResult<TopRatedMoviesResponse>>
     suspend fun fetchPopularMovies(): List <LocalMovie>
 // Allh mia get gia thn epomenh kathgoria
 }

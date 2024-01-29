@@ -18,7 +18,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.fetchTopMovies()
         showDashboardUI()
     }
 
@@ -27,7 +26,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
             DashboardView.setContent {
                 HelloWorldArxTheme {
                     DashboardUI(
-                        viewModel.listOfTopMovies
+                        viewModel
                     )
                 }
             }

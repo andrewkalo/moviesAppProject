@@ -29,11 +29,12 @@ import coil.compose.AsyncImage
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import androidx.compose.runtime.State
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import net.arx.helloworldarx.ui.Dashboard.DashboardViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "ProduceStateDoesNotAssignValue")
 @Composable
-fun DashboardUI(listOfTopMovies: SnapshotStateList<LocalMovie?>) {
+fun DashboardUI(viewModel: DashboardViewModel) {
 
 
 
@@ -94,16 +95,14 @@ fun DashboardUI(listOfTopMovies: SnapshotStateList<LocalMovie?>) {
                     }
                 }
                 LazyRow {
-                    items(listOfTopMovies) { movie ->
-                        if (movie != null) {
-                            AsyncImage(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(0.5f),
-                                model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
-                                contentDescription = null,
-                            )
-                        }
+                    items(viewModel.topRatedMovieList) { movie ->
+                        AsyncImage(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(0.5f),
+                            model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
+                            contentDescription = null,
+                        )
                     }
                 }
             }

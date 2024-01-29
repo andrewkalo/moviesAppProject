@@ -2,12 +2,19 @@ package net.arx.helloworldarx.framework.tmdb.datasource
 
 import android.annotation.SuppressLint
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.flowOn
 import net.arx.helloworldarx.data.tmdb.datasource.TmdbDataSource
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.data.tmdb.local.LocalMovieCredits
 import net.arx.helloworldarx.data.tmdb.local.LocalMoviesByCategory
 import net.arx.helloworldarx.data.tmdb.local.TmdbDao
+import net.arx.helloworldarx.data.tmdb.model.TopRatedMoviesResponse
+import net.arx.helloworldarx.domain.tmdb.repository.TmdbTopRatedMoviesResult
 import net.arx.helloworldarx.framework.tmdb.api.TmdbApi
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -38,14 +45,37 @@ class TmdbDataSourceImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchTopMovies(): List<LocalMovie> {
-        var list = tmdbApi.fetchTopMovies()
-        var counter = 0
-        while (counter <= list.size){
-            tmdbDao.storeLocalMovie(list[counter].toLocalMovie())
-            counter++
-        }
-        return list.map { it.toLocalMovie() }
+    override suspend fun getTopRatedMovies(lang: String, page: Int): Flow<TmdbTopRatedMoviesResult<TopRatedMoviesResponse>> {
+        return flow {
+            emit(TmdbTopRatedMoviesResult.Loading)
+            try {
+                val response = tmdbApi.getTopRatedMovies(
+                    page = page, language = lang
+                )
+                emit(
+                    TmdbTopRatedMoviesResult.Data(response)
+                )
+            } catch (throwable: Throwable) {
+                emit(
+                    when (throwable) {
+                        is HttpException -> {
+                            TmdbTopRatedMoviesResult.Error(
+                                false,
+                                throwable.code(),
+                                throwable.response()?.errorBody(),
+                                throwable.response()?.message()
+                            )
+                        }
+                        is IOException -> {
+                            TmdbTopRatedMoviesResult.Error(true, null, null,null)
+                        }
+                        else -> {
+                            TmdbTopRatedMoviesResult.Error(false, null, null, null)
+                        }
+                    }
+                )
+            }
+        }.flowOn(Dispatchers.IO)
     }
 
     override suspend fun fetchPopularMovies(): List<LocalMovie> {
