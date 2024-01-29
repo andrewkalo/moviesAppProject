@@ -1,10 +1,12 @@
 package net.arx.helloworldarx.ui.moviesCategory.composables
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,8 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.ui.tooling.preview.Preview
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
 import net.arx.helloworldarx.ui.theme.SpacingCustom_24dp
@@ -33,108 +37,183 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import net.arx.helloworldarx.R
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.ui.movieDetails.composables.ActorView
+import net.arx.helloworldarx.ui.moviesCategory.model.MoviesCategoryUiType
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTypography
 import net.arx.helloworldarx.ui.moviesCategory.model.MoviesCategoryUiState as MoviesCategoryUiState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoviesCategoryUI(numberToShow: MutableState<Int>, movieData: State<LocalMovie?>,
-                     moviesCategory: MutableState<String> ){
+fun MoviesCategoryUI(movieData: State<LocalMovie?>) {
 
-    /*
-    Xtypane error
-
-    //TODO YOUR UI GOES HERE
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { moviesCategory.value?.let { Text(text = it.title) } }, //TODO MAKE IT NON NULLABLE BY ADDING A LOADING STATE
-                navigationIcon = {
-                    IconButton(onClick = { /*TODO Implement back*/ }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = null)
-                    }
-                })
-        }) {
-        Column(modifier = androidx.compose.ui.Modifier.padding(it)) {
-            AsyncImage(
-                modifier = androidx.compose.ui.Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.3f),
-                model = "https://image.tmdb.org/t/p/w500/${movieData.value?.backdrop_path}",
-                contentDescription = null
-            )
-        }
-        Row() {
-            Text(text = "Hello world")
-            Text(text = "This number is from the viewmodel ${numberToShow.value}")
+    @Composable
+    fun MoviesCategoryDefaultContent() {
+        //TODO YOUR UI GOES HERE
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    // Dokimastiko onoma titlou
+                    title = { Text(text = "Top 10 movies") }, //TODO MAKE IT NON NULLABLE BY ADDING A LOADING STATE
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    navigationIcon = {
+                        IconButton(onClick = { /*TODO Implement back*/ }) {
+                            Icon(Icons.Default.ArrowBack, contentDescription = null)
+                        }
+                    })
+            }) {
+            LazyColumn(modifier = androidx.compose.ui.Modifier.padding(it)) {
+                item {
+                    AsyncImage(
+                        modifier = androidx.compose.ui.Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.3f),
+                        model = "https://image.tmdb.org/t/p/w500/${movieData.value?.backdrop_path}",
+                        contentDescription = null
+                    )
+                    Text(
+                        text = "Name of title"
+                    )
+                }
+                item {
+                    Spacer(modifier = androidx.compose.ui.Modifier.height(10.dp))
+                }
+            }
         }
     }
+
 
         @Composable
-        fun MoviesCategoryDefaultContent(MoviesCategoryUiState: MoviesCategoryUiState.DefaultUiState) {
+        fun MoviesCategoryLoadingContent() {
+            Column(
+                modifier = androidx.compose.ui.Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
+                CircularProgressIndicator(
+                    modifier = androidx.compose.ui.Modifier
+                        .padding(bottom = SpacingCustom_24dp)
+                        .fillMaxWidth(0.2f)
+                        .aspectRatio(1f),
+                    strokeWidth = SpacingQuarter_4dp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+
+        @Composable
+        fun MoviesCategoryErrorContent() {
+            Column(
+                modifier = androidx.compose.ui.Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Dokimastiko
+                CircularProgressIndicator(
+                    modifier = androidx.compose.ui.Modifier
+                        .padding(bottom = SpacingCustom_24dp)
+                        .fillMaxWidth(0.2f)
+                        .aspectRatio(1f),
+                    strokeWidth = SpacingQuarter_4dp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         }
 
 
-    @Composable
-    fun MoviesCategoryLoadingContent() {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        @Composable
+        fun MoviesCategoryEmptyContent() {
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        // Dokimastiko onoma titlou
+                        title = { Text(text = "Top 10 movies") }, //TODO MAKE IT NON NULLABLE BY ADDING A LOADING STATE
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            titleContentColor = MaterialTheme.colorScheme.primary,
+                        ),
+                        navigationIcon = {
+                            IconButton(onClick = { /*TODO Implement back*/ }) {
+                                Icon(Icons.Default.ArrowBack, contentDescription = null)
+                            }
+                        })
+                }) {
+                Column(
+                    modifier = androidx.compose.ui.Modifier.padding(it)
+                ) {
+                    Image(
+                        modifier = androidx.compose.ui.Modifier
+                            .fillMaxWidth(0.2f)
+                            .aspectRatio(1f),
+                        // Dokimastikh foto
+                        painter = painterResource(id = R.drawable.ic_croissant),
+                        contentDescription = stringResource(id = R.string.empty)
+                    )
+                }
+                Spacer(modifier = androidx.compose.ui.Modifier.height(10.dp))
+                Text(text = "This list is empty")
 
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .padding(bottom = SpacingCustom_24dp)
-                    .fillMaxWidth(0.2f)
-                    .aspectRatio(1f),
-                strokeWidth = SpacingQuarter_4dp,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
-
-
-    @Composable
-    fun MoviesCategoryContent(MoviesCategoryUiState: State<MoviesCategoryUiState>) {
-        when (val currentState = MoviesCategoryUiState.value) {
-            is MoviesCategoryUiState.DefaultUiState -> {
-                MoviesCategoryDefaultContent(MoviesCategoryUiState = currentState)
             }
 
-            MoviesCategoryUiState.ErrorUiState -> {
-                // TODO: show error state - in cases that we might have an error
+
+            @Composable
+            fun MoviesCategoryContent(MoviesCategoryUiState: State<MoviesCategoryUiState>) {
+                when (val currentState = MoviesCategoryUiState.value) {
+                    is MoviesCategoryUiState.DefaultUiState -> {
+                        MoviesCategoryDefaultContent()
+                    }
+
+                    is MoviesCategoryUiState.ErrorUiState -> {
+                        MoviesCategoryErrorContent()
+                    }
+
+                    is MoviesCategoryUiState.LoadingUiState -> {
+                        MoviesCategoryLoadingContent()
+                    }
+
+                    is MoviesCategoryUiState.EmptyUiState -> {
+                        MoviesCategoryEmptyContent()
+                    }
+                }
             }
 
-            MoviesCategoryUiState.LoadingUiState -> {
-                MoviesCategoryLoadingContent()
+            /*
+        @Composable
+        fun MoviesCategoryContentPreview() {
+            val MoviesCategoryUiState = remember {
+                mutableStateOf(MoviesCategoryUiState.DefaultUiState(MoviesCategoryUiType: MoviesCategoryUiType))
             }
 
-            else -> {}
-        }
-    }
-
-
-     */
-
-    @Composable
-    fun MoviesCategoryContentLoadingStatePreview() {
-        val MoviesCategoryUiState = remember {
-            mutableStateOf(MoviesCategoryUiState.LoadingUiState)
+            HelloWorldArxTheme {
+                MoviesCategoryContent(MoviesCategoryUiState = MoviesCategoryUiState)
+            }
         }
 
-        HelloWorldArxTheme {
-            //MoviesCategoryContent(MoviesCategoryUiState = MoviesCategoryUiState)
+         */
+
+            @Composable
+            fun MoviesCategoryContentLoadingStatePreview() {
+                val MoviesCategoryUiState = remember {
+                    mutableStateOf(MoviesCategoryUiState.LoadingUiState)
+                }
+
+                HelloWorldArxTheme {
+                    MoviesCategoryContent(MoviesCategoryUiState = MoviesCategoryUiState)
+                }
+            }
         }
-        }
-    }
+}
+
 
 
