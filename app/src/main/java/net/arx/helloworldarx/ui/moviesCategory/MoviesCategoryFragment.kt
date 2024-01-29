@@ -8,7 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.arx.helloworldarx.ui.base.BaseFragment
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
 import net.arx.helloworldarx.databinding.FragmentMoviesCategoryBinding
-import net.arx.helloworldarx.ui.moviesCategory.composables.MoviesCategoryUI
+import net.arx.helloworldarx.ui.moviesCategory.composables.MoviesCategoryScreen
 
 
 @AndroidEntryPoint

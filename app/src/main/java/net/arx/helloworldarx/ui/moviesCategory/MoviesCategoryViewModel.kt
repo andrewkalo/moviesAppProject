@@ -14,6 +14,10 @@ class MoviesCategoryViewModel @Inject constructor(
     private val getLocalMoviesByCategoryUseCase: GetLocalMoviesByCategoryUseCase
 ):BaseViewModel(){
 
+    val MoviesCategoryStateFlowUi: MoviesCategoryViewModel
+        get() {
+            TODO()
+        }
     private var _movieData = mutableStateOf<LocalMovie?>(null)
     val movieData: State<LocalMovie?> = _movieData
 
