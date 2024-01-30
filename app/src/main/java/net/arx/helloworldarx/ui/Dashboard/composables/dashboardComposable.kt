@@ -26,16 +26,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import net.arx.helloworldarx.data.tmdb.local.LocalMovie
-import androidx.compose.runtime.State
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 import net.arx.helloworldarx.ui.Dashboard.DashboardViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "ProduceStateDoesNotAssignValue")
 @Composable
-fun DashboardUI(viewModel: DashboardViewModel) {
-
+fun DashboardUI(viewModel: DashboardViewModel = hiltViewModel()) {
+    val topRatedMoviesState = viewModel.topRatedMoviesStateFlow.collectAsState().value
 
 
     //Dokimastiki lista me ta banners tainiwn
@@ -95,12 +94,12 @@ fun DashboardUI(viewModel: DashboardViewModel) {
                     }
                 }
                 LazyRow {
-                    items(viewModel.topRatedMovieList) { movie ->
+                    items(topRatedMoviesState) { movie ->
                         AsyncImage(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .fillMaxHeight(0.5f),
-                            model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
+                            model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
                             contentDescription = null,
                         )
                     }

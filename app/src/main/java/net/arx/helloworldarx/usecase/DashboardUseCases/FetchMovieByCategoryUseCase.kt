@@ -1,5 +1,6 @@
 package net.arx.helloworldarx.usecase.DashboardUseCases
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import net.arx.helloworldarx.data.tmdb.model.TopRatedMoviesResponse
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbListMovieResult

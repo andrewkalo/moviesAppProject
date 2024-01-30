@@ -47,32 +47,16 @@ class TmdbDataSourceImpl @Inject constructor(
 
     override suspend fun getTopRatedMovies(lang: String, page: Int): Flow<TmdbTopRatedMoviesResult<TopRatedMoviesResponse>> {
         return flow {
+
             emit(TmdbTopRatedMoviesResult.Loading)
             try {
-                val response = tmdbApi.getTopRatedMovies(
-                    page = page, language = lang
-                )
+                val response = tmdbApi.getTopRatedMovies(language = lang, page = page )
                 emit(
                     TmdbTopRatedMoviesResult.Data(response)
                 )
-            } catch (throwable: Throwable) {
+            } catch (e: Exception) {
                 emit(
-                    when (throwable) {
-                        is HttpException -> {
-                            TmdbTopRatedMoviesResult.Error(
-                                false,
-                                throwable.code(),
-                                throwable.response()?.errorBody(),
-                                throwable.response()?.message()
-                            )
-                        }
-                        is IOException -> {
-                            TmdbTopRatedMoviesResult.Error(true, null, null,null)
-                        }
-                        else -> {
-                            TmdbTopRatedMoviesResult.Error(false, null, null, null)
-                        }
-                    }
+                    TmdbTopRatedMoviesResult.Error(e.toString())
                 )
             }
         }.flowOn(Dispatchers.IO)

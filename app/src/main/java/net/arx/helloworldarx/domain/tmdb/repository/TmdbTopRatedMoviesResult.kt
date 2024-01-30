@@ -4,13 +4,6 @@ import okhttp3.ResponseBody
 sealed class TmdbTopRatedMoviesResult <out T>{
 
     data class Data<out T>(val value: T): TmdbTopRatedMoviesResult<T>()
-
-    data class Error(
-        val isNetworkError: Boolean,
-        val errorCode: Int?,
-        val errorBody: ResponseBody?,
-        val errorMessage: String?
-    ): TmdbTopRatedMoviesResult<Nothing>()
-
+    data class Error(val message: String, ): TmdbTopRatedMoviesResult<Nothing>()
     object Loading: TmdbTopRatedMoviesResult<Nothing>()
 }
