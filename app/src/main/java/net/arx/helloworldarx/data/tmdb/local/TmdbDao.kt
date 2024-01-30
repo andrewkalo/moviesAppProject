@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import net.arx.helloworldarx.data.tmdb.model.TopRatedMovieItem
 
 @Dao
 interface TmdbDao {
@@ -18,6 +19,8 @@ interface TmdbDao {
 
     @Query("SELECT * FROM movies where id=:movieId")
     suspend fun getLocalMovie(movieId: Int): LocalMovie
+
+
 
 
    /* @Query("SELECT * FROM movies ORDER BY voteAverage DESC")

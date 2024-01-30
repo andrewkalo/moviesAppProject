@@ -14,6 +14,7 @@ import net.arx.helloworldarx.data.tmdb.model.TopRatedMoviesResponse
 import net.arx.helloworldarx.domain.tmdb.repository.TmdbTopRatedMoviesResult
 import net.arx.helloworldarx.framework.tmdb.api.TmdbApi
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
@@ -51,6 +52,7 @@ class TmdbDataSourceImpl @Inject constructor(
             emit(TmdbTopRatedMoviesResult.Loading)
             try {
                 val response = tmdbApi.getTopRatedMovies(language = lang, page = page )
+                Log.d("MyLog","Got it from remote:"+response.results)
                 emit(
                     TmdbTopRatedMoviesResult.Data(response)
                 )

@@ -34,7 +34,7 @@ import net.arx.helloworldarx.ui.Dashboard.DashboardViewModel
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "ProduceStateDoesNotAssignValue")
 @Composable
 fun DashboardUI(viewModel: DashboardViewModel = hiltViewModel()) {
-    val topRatedMoviesState = viewModel.topRatedMoviesStateFlow.collectAsState().value
+    //val topRatedMoviesState = viewModel.topRatedMovieList.
 
 
     //Dokimastiki lista me ta banners tainiwn
@@ -94,7 +94,7 @@ fun DashboardUI(viewModel: DashboardViewModel = hiltViewModel()) {
                     }
                 }
                 LazyRow {
-                    items(topRatedMoviesState) { movie ->
+                    items(viewModel.topRatedMovieList) { movie ->
                         AsyncImage(
                             modifier = Modifier
                                 .fillMaxWidth()
