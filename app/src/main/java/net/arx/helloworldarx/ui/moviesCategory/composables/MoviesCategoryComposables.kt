@@ -2,18 +2,16 @@ package net.arx.helloworldarx.ui.moviesCategory.composables
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
+import android.view.View
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
@@ -24,35 +22,27 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.ui.tooling.preview.Preview
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
 import net.arx.helloworldarx.ui.theme.SpacingCustom_24dp
 import net.arx.helloworldarx.ui.theme.SpacingQuarter_4dp
-import java.lang.reflect.Modifier
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.getContextForLanguage
 import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImage
 import net.arx.helloworldarx.R
 import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.ui.Dashboard.DashboardFragment
-import net.arx.helloworldarx.ui.movieDetails.composables.ActorView
-import net.arx.helloworldarx.ui.moviesCategory.MoviesCategoryViewModel
-import net.arx.helloworldarx.ui.moviesCategory.model.MoviesCategoryUiType
-import net.arx.helloworldarx.ui.splash.model.SplashUiState
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTypography
 import net.arx.helloworldarx.ui.moviesCategory.model.MoviesCategoryUiState as MoviesCategoryUiState
 
@@ -63,14 +53,14 @@ val movieData: State<LocalMovie?>
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-internal fun MoviesCategoryScreen(viewModel: MoviesCategoryViewModel) {
-
+internal fun MoviesCategoryScreen(viewModel: View?) {
+    MoviesCategoryDefaultContent()
 }
 
 
 @Composable
 fun MoviesCategoryContent(MoviesCategoryUiState: State<MoviesCategoryUiState>) {
-    when (val currentState = MoviesCategoryUiState.value) {
+    when (MoviesCategoryUiState.value) {
         is MoviesCategoryUiState.DefaultUiState -> {
             MoviesCategoryDefaultContent()
         }
@@ -122,9 +112,7 @@ fun MoviesCategoryDefaultContent() {
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = {
-
-                    }) {
+                    IconButton(onClick = {backToDashboard()}) {
                         Icon(Icons.Default.ArrowBack, contentDescription = null)
                     }
                 })
@@ -165,7 +153,7 @@ fun MoviesCategoryErrorContent() {
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO Implement back*/ }) {
+                    IconButton(onClick = { backToDashboard() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = null)
                     }
                 })
@@ -206,7 +194,7 @@ fun MoviesCategoryEmptyContent() {
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO Implement back*/ }) {
+                    IconButton(onClick = { backToDashboard() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = null)
                     }
                 })
@@ -232,6 +220,15 @@ fun MoviesCategoryEmptyContent() {
         }
 
     }
+}
+
+fun backToDashboard(){
+
+
+}
+
+fun toMovieDetails(){
+
 }
 
 @Preview(name = "Loading State")

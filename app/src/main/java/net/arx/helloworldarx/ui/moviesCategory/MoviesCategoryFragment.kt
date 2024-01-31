@@ -4,48 +4,39 @@ import android.os.Bundle
 import android.view.View
 import androidx.compose.runtime.MutableState
 import androidx.fragment.app.viewModels
-import dagger.hilt.android.AndroidEntryPoint
-import net.arx.helloworldarx.ui.base.BaseFragment
-import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import net.arx.helloworldarx.databinding.FragmentMoviesCategoryBinding
+import net.arx.helloworldarx.ui.base.BaseFragment
+import net.arx.helloworldarx.ui.movieDetails.MovieDetailsFragmentArgs
 import net.arx.helloworldarx.ui.moviesCategory.composables.MoviesCategoryScreen
+import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
 
-
-@AndroidEntryPoint
 class MoviesCategoryFragment : BaseFragment<FragmentMoviesCategoryBinding>(){
-
-
     private val viewModel: MoviesCategoryViewModel by viewModels()
-    override fun getViewBinding(): FragmentMoviesCategoryBinding = FragmentMoviesCategoryBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentMoviesCategoryBinding =
+        FragmentMoviesCategoryBinding.inflate(layoutInflater)
 
-    /*
-    error
+    override fun getStatusBarType(): StatusBarType = StatusBarType.LIGHT
+
+    override fun getViewMode(): ViewMode = ViewMode.FULLSCREEN
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO GET CategoryId/Name or something FROM NAVIGATION ARGS WHEN IT GETS IMPLEMENTED
-        val categoryId = 520758
 
-        val numberFromViewModel = viewModel.variableForUi
-
-        showMovieCategory(numberFromViewModel)
-
+        setupViews()
 
     }
 
-    private fun showMovieCategory(numberFromViewModel: MutableState<Int>){
+    private fun setupViews(){
         with(binding){
             moviesCategoryView.setContent {
                 HelloWorldArxTheme {
-                    MoviesCategoryUI(numberFromViewModel,
-                        viewModel.movieData) //TODO This is where we call the composable
+                    MoviesCategoryScreen(view)
                 }
             }
         }
     }
-    */
-
-
 
 }
-
