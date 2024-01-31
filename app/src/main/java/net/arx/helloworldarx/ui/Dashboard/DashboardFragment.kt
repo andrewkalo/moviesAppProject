@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import net.arx.helloworldarx.R
@@ -29,18 +30,20 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
         //TODO GET movieId from viewmodel and do this on click
         //Comment it out to stay in your screen for now
-        val directions = actionMoviesDashboardViewToMovieDetailsView(13282)
-        findNavController().navigate(directions)
+        val navController = findNavController()
+        //actionMoviesDashboardViewToMovieDetailsView(13282)
 
-        showDashboardUI()
+
+        showDashboardUI(navController)
     }
 
-    private fun showDashboardUI(){
+    private fun showDashboardUI(navController: NavController){
         with(binding){
             DashboardView.setContent {
                 HelloWorldArxTheme {
                     DashboardUI(
-                        viewModel
+                        viewModel,
+                        navController
                     )
                 }
             }

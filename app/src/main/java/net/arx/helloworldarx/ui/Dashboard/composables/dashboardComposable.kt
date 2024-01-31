@@ -1,6 +1,8 @@
 package net.arx.helloworldarx.ui.Dashboard.composables
 
 import android.annotation.SuppressLint
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,12 +30,23 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
+import net.arx.helloworldarx.R
+import net.arx.helloworldarx.ui.Dashboard.DashboardFragment
+import net.arx.helloworldarx.ui.Dashboard.DashboardFragmentDirections
+import net.arx.helloworldarx.ui.Dashboard.DashboardFragmentDirections.ActionMoviesDashboardViewToMovieDetailsView
+import net.arx.helloworldarx.ui.Dashboard.DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView
 import net.arx.helloworldarx.ui.Dashboard.DashboardViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "ProduceStateDoesNotAssignValue")
 @Composable
-fun DashboardUI(viewModel: DashboardViewModel = hiltViewModel()) {
+fun DashboardUI(
+    viewModel: DashboardViewModel = hiltViewModel(),
+    navController: NavController
+) {
     //val topRatedMoviesState = viewModel.topRatedMovieList.
 
 
@@ -98,7 +111,11 @@ fun DashboardUI(viewModel: DashboardViewModel = hiltViewModel()) {
                         AsyncImage(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .fillMaxHeight(0.5f),
+                                .fillMaxHeight(0.5f).clickable(onClick = {
+                                    navController.navigate(
+                                        actionMoviesDashboardViewToMovieDetailsView(movie.id))
+                                }
+                                ),
                             model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
                             contentDescription = null,
                         )

@@ -24,17 +24,22 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         val args: MovieDetailsFragmentArgs by navArgs()
         val movieId = args.movieId
 
+        val navigateUp: ()->Unit = {
+            findNavController().navigateUp()
+        }
+
         viewModel.getMovie(movieId)
         viewModel.getCredits(movieId)
-        ShowMovieDetailsUI()
+        ShowMovieDetailsUI(navigateUp)
     }
-    private fun ShowMovieDetailsUI(){
+    private fun ShowMovieDetailsUI(navigateUp: ()->Unit ){
         with(binding){
             movieDetailsView.setContent {
                 HelloWorldArxTheme {
                     MovieDetailsUI(
                         viewModel.movieData,
-                        viewModel.movieCredits
+                        viewModel.movieCredits,
+                        navigateUp
                     )
                 }
             }
