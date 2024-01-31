@@ -1,12 +1,11 @@
 package net.arx.helloworldarx.domain.tmdb.repository
 
-import net.arx.helloworldarx.data.tmdb.local.LocalMovie
-import net.arx.helloworldarx.data.tmdb.model.TopRatedMovieItem
+import net.arx.helloworldarx.data.tmdb.model.DashboardMovieItem
 
 sealed class TmdbListMovieResult {
-    class SuccessListMovieResult(val movieDetails: List<TopRatedMovieItem>) : TmdbListMovieResult()
+    class SuccessListMovieResult(val movieDetails: List<DashboardMovieItem>) : TmdbListMovieResult()
 
-    class NetworkWaringResult(val movieDetails: List<TopRatedMovieItem>): TmdbListMovieResult()
+    class NetworkWaringResult(val movieDetails: List<DashboardMovieItem>): TmdbListMovieResult()
 
     object ApiError: TmdbListMovieResult()
 

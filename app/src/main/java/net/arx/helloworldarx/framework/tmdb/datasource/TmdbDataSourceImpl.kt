@@ -10,12 +10,10 @@ import net.arx.helloworldarx.data.tmdb.local.LocalMovie
 import net.arx.helloworldarx.data.tmdb.local.LocalMovieCredits
 import net.arx.helloworldarx.data.tmdb.local.LocalMoviesByCategory
 import net.arx.helloworldarx.data.tmdb.local.TmdbDao
-import net.arx.helloworldarx.data.tmdb.model.TopRatedMoviesResponse
-import net.arx.helloworldarx.domain.tmdb.repository.TmdbTopRatedMoviesResult
+import net.arx.helloworldarx.domain.tmdb.repository.DashboardMoviesResult
+import net.arx.helloworldarx.domain.tmdb.repository.UpcomingMoviesResult
 import net.arx.helloworldarx.framework.tmdb.api.TmdbApi
-import retrofit2.HttpException
 import timber.log.Timber
-import java.io.IOException
 import javax.inject.Inject
 
 
@@ -46,27 +44,53 @@ class TmdbDataSourceImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTopRatedMovies(lang: String, page: Int): Flow<TmdbTopRatedMoviesResult<TopRatedMoviesResponse>> {
+    @SuppressLint("TimberArgCount")
+    override suspend fun getTopRatedMovies(lang: String, page: Int): Flow<DashboardMoviesResult> {
         return flow {
 
-            emit(TmdbTopRatedMoviesResult.Loading)
+            emit(DashboardMoviesResult.Loading)
             try {
+                Timber.tag("TmdbDataSourceImpl").e("Before request" )
                 val response = tmdbApi.getTopRatedMovies(language = lang, page = page )
-                Log.d("MyLog","Got it from remote:"+response.results)
+                Timber.tag("TmdbDataSourceImpl").e("Results:${response.results}" )
                 emit(
-                    TmdbTopRatedMoviesResult.Data(response)
+                    DashboardMoviesResult.Data(response)
                 )
             } catch (e: Exception) {
+                Timber.tag("TmdbDataSourceImpl").e(e)
                 emit(
-                    TmdbTopRatedMoviesResult.Error(e.toString())
+                    DashboardMoviesResult.Error(e.toString())
                 )
             }
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun fetchPopularMovies(): List<LocalMovie> {
-        TODO("Not yet implemented")
+
+
+    override suspend fun getPopularMovies(lang: String, page: Int): Flow<DashboardMoviesResult> {
+        return flow {
+            emit(DashboardMoviesResult.Loading)
+            try {
+                val response = tmdbApi.getPopularMovies(language = lang, page = page)
+                emit(DashboardMoviesResult.Data(response))
+            } catch (e: Exception) {
+                emit(DashboardMoviesResult.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
     }
+
+    override suspend fun getUpcomingMovies(lang: String, page: Int): Flow<UpcomingMoviesResult> {
+        return flow {
+            emit(UpcomingMoviesResult.Loading)
+            try {
+                val response = tmdbApi.getUpcomingMovies(language = lang, page = page)
+                emit(UpcomingMoviesResult.Data(response))
+            } catch (e: Exception) {
+                emit(UpcomingMoviesResult.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
 
     // To override dinei lathos
     /*suspend fun getTopMovies(): List<LocalMovie>? {
@@ -91,6 +115,22 @@ class TmdbDataSourceImpl @Inject constructor(
         }
         return list
     }*/
+
+    /* override suspend fun getTopRatedMovies(lang: String, page: Int): TmdbTopRatedMoviesResult {
+           val response = try {
+               val response = tmdbApi.getTopRatedMovies(language = lang, page = page)
+               Timber.tag("MyLog").e("Results:"+ response.results)
+
+                   TmdbTopRatedMoviesResult.Data(response)
+
+           } catch (e: Exception) {
+
+                   TmdbTopRatedMoviesResult.Error(e.toString())
+
+           }
+       return response
+       }
+   }*/
 
 
 }
