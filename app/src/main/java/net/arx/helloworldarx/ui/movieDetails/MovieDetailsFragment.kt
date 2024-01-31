@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import net.arx.helloworldarx.R
 import net.arx.helloworldarx.databinding.FragmentMovieDetailsBinding
 import net.arx.helloworldarx.ui.base.BaseFragment
 import net.arx.helloworldarx.ui.movieDetails.composables.MovieDetailsUI
@@ -17,14 +20,12 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     override fun getViewBinding(): FragmentMovieDetailsBinding = FragmentMovieDetailsBinding.inflate(layoutInflater)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //TODO Here we get the navigation arguments
+        val args: MovieDetailsFragmentArgs by navArgs()
+        val movieId = args.movieId
 
-        //TODO GET MOVIE FROM NAVIGATION ARGS WHEN IT GETS IMPLEMENTED
-        val movieId = 520758
         viewModel.getMovie(movieId)
         viewModel.getCredits(movieId)
-
-        Log.d("MyLog","Size ${viewModel.movieCredits.size}")
-
         ShowMovieDetailsUI()
     }
     private fun ShowMovieDetailsUI(){
