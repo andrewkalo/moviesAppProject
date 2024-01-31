@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import net.arx.helloworldarx.ui.Dashboard.DashboardFragmentDirections
 import net.arx.helloworldarx.ui.Dashboard.DashboardViewModel
 import net.arx.helloworldarx.ui.Dashboard.MoviesCategory
 
@@ -102,7 +104,7 @@ fun DashboardUI(
                     }
                 }
                 LazyRow {
-                    items(viewModel.topRatedMovieList) { image ->
+                    items(viewModel.topRatedMovieList) { movie ->
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -110,7 +112,7 @@ fun DashboardUI(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = image.title.toString(),
+                                text = movie.title.toString(),
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
@@ -120,8 +122,16 @@ fun DashboardUI(
                             AsyncImage(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .fillMaxHeight(0.5f),
-                                model = "https://image.tmdb.org/t/p/w500${image.poster_path}",
+                                    .fillMaxHeight(0.5f)
+                                    .clickable(onClick = {
+                                        movie.id?.let {
+                                            navController.navigate(
+                                                DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(it)
+                                            )
+                                        }
+
+                                    }),
+                                model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
                                 contentDescription = null,
                             )
                         }
@@ -157,13 +167,13 @@ fun DashboardUI(
                             }
                         }
                         LazyRow {
-                            items(viewModel.popularMovieList) { image ->
+                            items(viewModel.popularMovieList) { movie ->
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                 ) {
                                     Text(
-                                        text = image.title.toString(), // Replace this with the actual title logic
+                                        text = movie.title.toString(), // Replace this with the actual title logic
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Center,
                                         modifier = Modifier
@@ -173,8 +183,16 @@ fun DashboardUI(
                                     AsyncImage(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .fillMaxHeight(0.5f),
-                                        model = "https://image.tmdb.org/t/p/w500${image.poster_path}",
+                                            .fillMaxHeight(0.5f)
+                                            .clickable(onClick = {
+                                                movie.id?.let {
+                                                    navController.navigate(
+                                                        DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(it)
+                                                    )
+                                                }
+
+                                            }),
+                                        model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
                                         contentDescription = null,
                                     )
                                 }
@@ -211,13 +229,13 @@ fun DashboardUI(
                     }
                 }
                 LazyRow {
-                    items(viewModel.upcomingMovieList) { image ->
+                    items(viewModel.upcomingMovieList) { movie ->
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
                         ) {
                             Text(
-                                text = image.title.toString(),
+                                text = movie.title.toString(),
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
@@ -227,8 +245,16 @@ fun DashboardUI(
                             AsyncImage(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .fillMaxHeight(0.5f),
-                                model = "https://image.tmdb.org/t/p/w500/${image.poster_path}",
+                                    .fillMaxHeight(0.5f)
+                                    .clickable(onClick = {
+                                        movie.id?.let {
+                                            navController.navigate(
+                                                DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(it)
+                                            )
+                                        }
+
+                                    }),
+                                model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
                                 contentDescription = null,
                             )
                         }

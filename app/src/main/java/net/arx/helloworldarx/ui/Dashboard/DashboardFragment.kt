@@ -27,12 +27,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //TODO GET movieId from viewmodel and do this on click
-        //Comment it out to stay in your screen for now
         val navController = findNavController()
-        //actionMoviesDashboardViewToMovieDetailsView(13282)
-
 
         showDashboardUI(navController)
     }
