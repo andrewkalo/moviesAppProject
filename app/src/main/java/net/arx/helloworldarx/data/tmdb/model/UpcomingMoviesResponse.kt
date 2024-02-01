@@ -5,6 +5,6 @@ data class UpcomingMovieResponse(
 
     val dates: Dates? ,
     val page: Int?,
-    val results: List<DashboardMovieItem>? = null,
+    val results: List<DashboardMovieItem>?,
 
 )

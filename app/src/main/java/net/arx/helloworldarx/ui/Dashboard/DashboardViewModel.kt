@@ -1,9 +1,11 @@
 package net.arx.helloworldarx.ui.Dashboard
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.arx.helloworldarx.data.tmdb.model.DashboardMovieItem
 import net.arx.helloworldarx.domain.tmdb.repository.DashboardMoviesResult
@@ -32,12 +34,21 @@ class DashboardViewModel @Inject constructor(
     private var _upcomingMovieList = mutableStateListOf<DashboardMovieItem>()
     val upcomingMovieList : List<DashboardMovieItem> = _upcomingMovieList
 
+    private var _isLoadingMovies = mutableStateOf(false)
+    val isLoadingMovies = _isLoadingMovies
+
+    private var _errorLoadingMovies = mutableStateOf(false)
+    val errorLoadingMovies = _errorLoadingMovies
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
+            delay(2000)
             fetchTopRatedMoviesUseCase("en-US", 1).collect {
                 Timber.tag("DashboardViewModel").w("Result: " + it)
                 when (it) {
                     is DashboardMoviesResult.Data -> {
+                        _isLoadingMovies.value = false
+                        _errorLoadingMovies.value = false
                         _topRatedMovieList.clear()
                         it.value?.results?.let { results ->
                             _topRatedMovieList.addAll(results)
@@ -46,17 +57,20 @@ class DashboardViewModel @Inject constructor(
                     }
 
                     is DashboardMoviesResult.Error -> {
-                        // Handle error if needed
+                        _isLoadingMovies.value = false
+                        _errorLoadingMovies.value = true
                     }
 
                     is DashboardMoviesResult.Loading -> {
-                        // loading to true
+                        _isLoadingMovies.value = true
+                        _errorLoadingMovies.value = false
                     }
                 }
             }
         }
 
         viewModelScope.launch(Dispatchers.IO) {
+            delay(2000)
             fetchPopularMoviesUseCase("en-US", 1).collect {
                 Timber.tag("DashboardViewModel2").w("Result: " + it)
                 when (it) {
@@ -69,17 +83,18 @@ class DashboardViewModel @Inject constructor(
                     }
 
                     is DashboardMoviesResult.Error -> {
-                        // Handle error if needed
+                        _isLoadingMovies.value = false
                     }
 
                     is DashboardMoviesResult.Loading -> {
-                        // loading to true
+                        _isLoadingMovies.value = true
                     }
                 }
             }
         }
 
         viewModelScope.launch(Dispatchers.IO) {
+            delay(2000)
             fetchUpcomingMoviesUseCase("en-US",1).collect {
                 Timber.tag("DashboardViewModel2").w("Result: " + it)
                 when (it) {
@@ -92,11 +107,11 @@ class DashboardViewModel @Inject constructor(
                     }
 
                     is UpcomingMoviesResult.Error -> {
-                        // Handle error if needed
+                        _isLoadingMovies.value = false
                     }
 
                     is UpcomingMoviesResult.Loading -> {
-                        // loading to true
+                        _isLoadingMovies.value = true
                     }
                 }
             }

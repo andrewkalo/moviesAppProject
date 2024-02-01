@@ -18,3 +18,4 @@ data class LocalMovie(
     val backdrop_path: String?,
     val success: Boolean
 )
+

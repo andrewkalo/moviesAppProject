@@ -37,4 +37,5 @@ data class DashboardMovieItem(
     val vote_count: Int?
 )
 
-//may need to implement parcelable
+
+

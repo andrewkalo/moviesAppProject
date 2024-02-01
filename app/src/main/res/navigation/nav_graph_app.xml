@@ -27,7 +27,12 @@
             app:destination="@id/movieDetailsView" />
         <action
             android:id="@+id/action_moviesDashboardView_to_moviesCategoryView"
-            app:destination="@id/moviesCategoryView" />
+            app:destination="@id/moviesCategoryView">
+            <argument
+            android:name="moviesCategory"
+            app:argType="string"
+            app:nullable="false"/>
+        </action>
     </fragment>
 
     <fragment

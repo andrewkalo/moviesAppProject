@@ -1,7 +1,6 @@
 package net.arx.helloworldarx.ui.Dashboard.composables
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -44,25 +44,7 @@ fun DashboardUI(
     viewModel: DashboardViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    //val topRatedMoviesState = viewModel.topRatedMovieList.
 
-
-    //Dokimastiki lista me ta banners tainiwn
-    val imageList = List(10) { index ->
-        when (index) {
-            0 -> "pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg"
-            1 -> "u6oXUTtOuJRPdUgUuPAVVJPSKCo.jpg"
-            2 -> "k7eYdWvhYQyRQoU2TB2A2Xu2TfD.jpg"
-            3 -> "yz4QVqPx3h1hD1DfqqQkCq3rmxW.jpg"
-            4 -> "oyG9TL7FcRP4EZ9Vid6uKzwdndz.jpg"
-            5 -> "pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg"
-            6 -> "u6oXUTtOuJRPdUgUuPAVVJPSKCo.jpg"
-            7 -> "k7eYdWvhYQyRQoU2TB2A2Xu2TfD.jpg"
-            8 -> "yz4QVqPx3h1hD1DfqqQkCq3rmxW.jpg"
-            9 -> "oyG9TL7FcRP4EZ9Vid6uKzwdndz.jpg"
-            else -> "gEU2QniE6E77NI6lCU6MxlNBvIx.jpg"
-        }
-    }
     //To top app bar
     Scaffold(
         topBar = {
@@ -94,7 +76,11 @@ fun DashboardUI(
                         modifier = Modifier.weight(1f)
                     )
                     TextButton(
-                        onClick = { /*TODO When Clicked Go to The Popular Movies Fragment*/ }
+                        onClick = {
+                            //MoviesCategory.TopTenMovies.let {
+                               // navController.navigate(DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView(it.value))
+                          //  }
+                        }
                     ) {
                         Text(
                             text = "See All",
@@ -103,37 +89,51 @@ fun DashboardUI(
                         )
                     }
                 }
-                LazyRow {
-                    items(viewModel.topRatedMovieList) { movie ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = movie.title.toString(),
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .padding(8.dp),
-                            )
-                            AsyncImage(
+                if(viewModel.isLoadingMovies.value){
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize(align = Alignment.Center)
+                            .padding(8.dp)
+                    )
+                }else if(viewModel.errorLoadingMovies.value){
+                    Text(text = "Error Fetching the Movies. Please check your internet connection!")
+                }
+                else{
+                    LazyRow {
+                        items(viewModel.topRatedMovieList) { movie ->
+                            Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .fillMaxHeight(0.5f)
-                                    .clickable(onClick = {
-                                        movie.id?.let {
-                                            navController.navigate(
-                                                DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(it)
-                                            )
-                                        }
+                                    .padding(8.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = movie.title.toString(),
+                                    fontWeight = FontWeight.Bold,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .padding(8.dp),
+                                )
+                                AsyncImage(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(0.5f)
+                                        .clickable(onClick = {
+                                            movie.id?.let {
+                                                navController.navigate(
+                                                    DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
+                                                        it
+                                                    )
+                                                )
+                                            }
 
-                                    }),
-                                model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
-                                contentDescription = null,
-                            )
+                                        }),
+                                    model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
+                                    contentDescription = null,
+                                )
+                            }
                         }
                     }
                 }
@@ -157,7 +157,11 @@ fun DashboardUI(
                                 modifier = Modifier.weight(1f)
                             )
                             TextButton(
-                                onClick = { /*TODO When Clicked Go to The Popular Movies Fragment*/ }
+                                onClick = {
+                                    //MoviesCategory.PopularMovies.let {
+                                    // navController.navigate(DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView(it.value))
+                                    //  }
+                                }
                             ) {
                                 Text(
                                     text = "See All",
@@ -166,35 +170,48 @@ fun DashboardUI(
                                 )
                             }
                         }
-                        LazyRow {
-                            items(viewModel.popularMovieList) { movie ->
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                ) {
-                                    Text(
-                                        text = movie.title.toString(), // Replace this with the actual title logic
-                                        fontWeight = FontWeight.Bold,
-                                        textAlign = TextAlign.Center,
+                        if(viewModel.isLoadingMovies.value){
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentSize(align = Alignment.Center)
+                                    .padding(8.dp)
+                            )
+                        }else if(viewModel.errorLoadingMovies.value){
+                            Text(text = "Error Fetching the Movies. Please check your internet connection!")
+                        }
+                        else{
+                            LazyRow {
+                                items(viewModel.popularMovieList) { movie ->
+                                    Column(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .padding(8.dp)
-                                    )
-                                    AsyncImage(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .fillMaxHeight(0.5f)
-                                            .clickable(onClick = {
-                                                movie.id?.let {
-                                                    navController.navigate(
-                                                        DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(it)
-                                                    )
-                                                }
-
-                                            }),
-                                        model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
-                                        contentDescription = null,
-                                    )
+                                    ) {
+                                        Text(
+                                            text = movie.title.toString(), // Replace this with the actual title logic
+                                            fontWeight = FontWeight.Bold,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(8.dp)
+                                        )
+                                        AsyncImage(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .fillMaxHeight(0.5f)
+                                                .clickable(onClick = {
+                                                    movie.id?.let {
+                                                        navController.navigate(
+                                                            DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
+                                                                it
+                                                            )
+                                                        )
+                                                    }
+                                                }),
+                                            model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
+                                            contentDescription = null,
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -219,7 +236,11 @@ fun DashboardUI(
                         modifier = Modifier.weight(1f)
                     )
                     TextButton(
-                        onClick = { /*TODO When Clicked Go to The Popular Movies Fragment*/ }
+                        onClick = {
+                            //MoviesCategory.UpcomingMovies.let {
+                            // navController.navigate(DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView(it.value))
+                            //  }
+                        }
                     ) {
                         Text(
                             text = "See All",
@@ -228,38 +249,53 @@ fun DashboardUI(
                         )
                     }
                 }
-                LazyRow {
-                    items(viewModel.upcomingMovieList) { movie ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = movie.title.toString(),
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
+                if(viewModel.isLoadingMovies.value){
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize(align = Alignment.Center)
+                            .padding(8.dp)
+                    )
+                }else if(viewModel.errorLoadingMovies.value){
+                    Text(text = "Error Fetching the Movies. Please check your internet connection!")
+                }
+                else{
+                    LazyRow {
+                        items(viewModel.upcomingMovieList) { movie ->
+                            Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(8.dp)
-                            )
-                            AsyncImage(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(0.5f)
-                                    .clickable(onClick = {
-                                        movie.id?.let {
-                                            navController.navigate(
-                                                DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(it)
-                                            )
-                                        }
+                            ) {
+                                Text(
+                                    text = movie.title.toString(),
+                                    fontWeight = FontWeight.Bold,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp)
+                                )
+                                AsyncImage(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(0.5f)
+                                        .clickable(onClick = {
+                                            movie.id?.let {
+                                                navController.navigate(
+                                                    DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
+                                                        it
+                                                    )
+                                                )
+                                            }
 
-                                    }),
-                                model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
-                                contentDescription = null,
-                            )
+                                        }),
+                                    model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
+                                    contentDescription = null,
+                                )
+                            }
                         }
                     }
                 }
+
             }
         }
     }
