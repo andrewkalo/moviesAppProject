@@ -45,6 +45,7 @@ fun DashboardUI(
     navController: NavController
 ) {
 
+
     //To top app bar
     Scaffold(
         topBar = {
@@ -101,7 +102,7 @@ fun DashboardUI(
                 }
                 else{
                     LazyRow {
-                        items(viewModel.topRatedMovieList) { movie ->
+                        items(viewModel.topRatedMovieList.take(10)) { movie ->
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()

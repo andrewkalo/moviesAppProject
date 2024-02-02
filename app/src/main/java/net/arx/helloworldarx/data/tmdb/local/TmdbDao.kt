@@ -20,7 +20,8 @@ interface TmdbDao {
     suspend fun getLocalMovie(movieId: Int): LocalMovie
 
 
-
+    //@Insert(onConflict = OnConflictStrategy.REPLACE)
+    //suspend fun storeLocalListOfMovies(listOfMovies: LocalListOfMovies)
 
    /* @Query("SELECT * FROM movies ORDER BY voteAverage DESC")
     suspend fun getTopMovies(page: Int): LocalMovie

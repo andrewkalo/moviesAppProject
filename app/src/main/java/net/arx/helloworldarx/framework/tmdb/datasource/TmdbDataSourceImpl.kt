@@ -52,7 +52,8 @@ class TmdbDataSourceImpl @Inject constructor(
             try {
                 Timber.tag("TmdbDataSourceImpl").e("Before request" )
                 val response = tmdbApi.getTopRatedMovies(language = lang, page = page )
-                Timber.tag("TmdbDataSourceImpl").e("Results:${response.results}" )
+                //val dao = tmdbDao.storeLocalListOfMovies(response.toLocalListOfMovies())
+                //Timber.tag("TmdbDataSourceImpl5").e("Results:${tmdbDao.storeLocalListOfMovies(response.toLocalListOfMovies())}" )
                 emit(
                     DashboardMoviesResult.Data(response)
                 )

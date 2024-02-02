@@ -2,8 +2,6 @@ package net.arx.helloworldarx.ui.moviesCategory.composables
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -11,18 +9,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.State
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.ui.tooling.preview.Preview
-import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
 import net.arx.helloworldarx.ui.theme.SpacingCustom_24dp
 import net.arx.helloworldarx.ui.theme.SpacingQuarter_4dp
 import androidx.compose.material3.CircularProgressIndicator
@@ -37,13 +28,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import net.arx.helloworldarx.R
 import net.arx.helloworldarx.data.tmdb.local.LocalMoviesByCategory
-import net.arx.helloworldarx.ui.moviesCategory.MoviesCategoryFragmentDirections
 import net.arx.helloworldarx.ui.moviesCategory.MoviesCategoryViewModel
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTypography
-import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnrememberedMutableState")
@@ -155,6 +143,8 @@ internal fun MoviesCategoryScreen(
 
         }
     }
+
+
 
 }
 
