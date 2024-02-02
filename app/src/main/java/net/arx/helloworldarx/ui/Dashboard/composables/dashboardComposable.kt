@@ -57,7 +57,7 @@ fun DashboardUI(
                 )
             )
         }
-    ) {
+    ) { it ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -78,8 +78,9 @@ fun DashboardUI(
                     )
                     TextButton(
                         onClick = {
-                            MoviesCategory.TopTenMovies.let {
-                                navController.navigate(DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView(it.value))
+                            MoviesCategory.TopTenMovies.let {navController.navigate(
+                                DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView2(it.value)
+                                )
                             }
                         }
                     ) {
@@ -159,9 +160,10 @@ fun DashboardUI(
                             )
                             TextButton(
                                 onClick = {
-                                    //MoviesCategory.PopularMovies.let {
-                                    // navController.navigate(DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView(it.value))
-                                    //  }
+                                    MoviesCategory.PopularMovies.let {navController.navigate(
+                                        DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView2(it.value)
+                                    )
+                                    }
                                 }
                             ) {
                                 Text(
@@ -238,9 +240,10 @@ fun DashboardUI(
                     )
                     TextButton(
                         onClick = {
-                            //MoviesCategory.UpcomingMovies.let {
-                            // navController.navigate(DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView(it.value))
-                            //  }
+                            MoviesCategory.UpcomingMovies.let {navController.navigate(
+                                DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView2(it.value)
+                            )
+                            }
                         }
                     ) {
                         Text(

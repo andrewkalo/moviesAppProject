@@ -2,16 +2,17 @@ package net.arx.helloworldarx.ui.moviesCategory
 
 import android.os.Bundle
 import android.view.View
-import androidx.compose.runtime.State
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import net.arx.helloworldarx.data.tmdb.local.LocalMoviesByCategory
+import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import net.arx.helloworldarx.databinding.FragmentMoviesCategoryBinding
 import net.arx.helloworldarx.ui.base.BaseFragment
 import net.arx.helloworldarx.ui.moviesCategory.composables.MoviesCategoryScreen
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTheme
 
-
+@AndroidEntryPoint
 class MoviesCategoryFragment : BaseFragment<FragmentMoviesCategoryBinding>(){
     private val viewModel: MoviesCategoryViewModel by viewModels()
 
@@ -24,25 +25,27 @@ class MoviesCategoryFragment : BaseFragment<FragmentMoviesCategoryBinding>(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val args: MoviesCategoryFragmentArgs by navArgs()
-        //val category = args.category
+
 
         //viewModel.getMoviesCategory(category)
+        val navController: NavController = findNavController()
+        val args: MoviesCategoryFragmentArgs by navArgs()
+        val category = args.moviesCategory
 
         val navigateUp: ()-> Unit = {
             findNavController().navigateUp()
         }
 
 
-        setupViews(navigateUp)
+        setupViews(navController, navigateUp,category)
 
     }
 
-    private fun setupViews(navigateUp: ()->Unit){
+    private fun setupViews(navController: NavController, navigateUp: () -> Unit, category: String){
         with(binding){
             moviesCategoryView.setContent {
                 HelloWorldArxTheme {
-                    MoviesCategoryScreen(viewModel, viewModel.moviesCategoryData, navigateUp)
+                    MoviesCategoryScreen(viewModel, navController, navigateUp,category)
                 }
             }
         }

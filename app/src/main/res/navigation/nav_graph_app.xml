@@ -26,13 +26,8 @@
             android:id="@+id/action_moviesDashboardView_to_movieDetailsView"
             app:destination="@id/movieDetailsView" />
         <action
-            android:id="@+id/action_moviesDashboardView_to_moviesCategoryView"
-            app:destination="@id/moviesCategoryView">
-            <argument
-            android:name="moviesCategory"
-            app:argType="string"
-            app:nullable="false"/>
-        </action>
+            android:id="@+id/action_moviesDashboardView_to_moviesCategoryView2"
+            app:destination="@id/moviesCategoryView" />
     </fragment>
 
     <fragment
@@ -49,13 +44,15 @@
         android:id="@+id/moviesCategoryView"
         android:name="net.arx.helloworldarx.ui.moviesCategory.MoviesCategoryFragment"
         android:label="MoviesCategory"
-        tools:layout="@layout/fragment_movies_category" />
-    <action
-        android:id="@+id/action_moviesCategoryView_to_movieDetailsView"
-        app:destination="@id/movieDetailsView" />
-    <argument
-        android:name="category"
-        app:argType="string"
-        app:nullable="false" />
+        tools:layout="@layout/fragment_movies_category" >
+        <argument
+            android:name="moviesCategory"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_moviesCategoryView_to_movieDetailsView"
+            app:destination="@id/movieDetailsView" />
+
+    </fragment>
+
 
 </navigation>

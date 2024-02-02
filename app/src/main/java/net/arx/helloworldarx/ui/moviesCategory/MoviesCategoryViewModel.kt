@@ -1,88 +1,128 @@
 package net.arx.helloworldarx.ui.moviesCategory
 
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
+
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.arx.helloworldarx.data.tmdb.local.LocalMovie
-import net.arx.helloworldarx.data.tmdb.local.LocalMoviesByCategory
-import net.arx.helloworldarx.domain.tmdb.repository.TmdbMoviesByCategoryResult
+import net.arx.helloworldarx.data.tmdb.model.DashboardMovieItem
+import net.arx.helloworldarx.domain.tmdb.repository.DashboardMoviesResult
+import net.arx.helloworldarx.domain.tmdb.repository.UpcomingMoviesResult
 import net.arx.helloworldarx.ui.base.BaseViewModel
-import net.arx.helloworldarx.usecase.moviesCategory.GetLocalMoviesByCategoryUseCase
+import net.arx.helloworldarx.usecase.DashboardUseCases.FetchPopularMoviesUseCase
+import net.arx.helloworldarx.usecase.DashboardUseCases.FetchTopRatedMoviesUseCase
+import net.arx.helloworldarx.usecase.DashboardUseCases.fetchUpcomingMoviesUseCase
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MoviesCategoryViewModel @Inject constructor(
-    private val getLocalMoviesByCategoryUseCase: GetLocalMoviesByCategoryUseCase
-):BaseViewModel(){
+    val fetchTopRatedMoviesUseCase: FetchTopRatedMoviesUseCase,
+    val fetchPopularMoviesUseCase: FetchPopularMoviesUseCase,
+    val fetchUpcomingMoviesUseCase: fetchUpcomingMoviesUseCase
+):BaseViewModel() {
 
-    private var _moviesCategoryData = mutableStateListOf<LocalMoviesByCategory?>()
-    val moviesCategoryData: List<LocalMoviesByCategory?> = _moviesCategoryData
 
-    private var _isLoadingMoviesCategory = mutableStateOf(false)
-    val isLoadingMoviesCategory = _isLoadingMoviesCategory
+    private var _topRatedMovieList = mutableStateListOf<DashboardMovieItem>()
+    val topRatedMovieList: List<DashboardMovieItem> = _topRatedMovieList
 
-    private var _errorLoadingMoviesCategory = mutableStateOf(false)
-    val errorLoadingMoviesCategory = _errorLoadingMoviesCategory
+    private var _popularMovieList = mutableStateListOf<DashboardMovieItem>()
+    val popularMovieList: List<DashboardMovieItem> = _popularMovieList
 
-    private var _emptyLoadingMoviesCategory = mutableStateOf(false)
-    val emptyLoadingMoviesCategory = _emptyLoadingMoviesCategory
+    private var _upcomingMovieList = mutableStateListOf<DashboardMovieItem>()
+    val upcomingMovieList: List<DashboardMovieItem> = _upcomingMovieList
 
-    /*
-    init{
+    private var _isLoadingMovies = mutableStateOf(false)
+    val isLoadingMovies = _isLoadingMovies
+
+    private var _errorLoadingMovies = mutableStateOf(false)
+    val errorLoadingMovies = _errorLoadingMovies
+
+    init {
         viewModelScope.launch(Dispatchers.IO) {
             delay(2000)
-            getLocalMoviesByCategoryUseCase.collect {
+            fetchTopRatedMoviesUseCase("en-US", 1).collect {
+                Timber.tag("DashboardViewModel").w("Result: " + it)
                 when (it) {
-                    is TmdbMoviesByCategoryResult.Data -> {
-                        _isLoadingMoviesCategory.value = false
-                        _errorLoadingMoviesCategory.value = false
-                        _emptyLoadingMoviesCategory.value = false
-                        _moviesCategoryData.clear()
+                    is DashboardMoviesResult.Data -> {
+                        _isLoadingMovies.value = false
+                        _errorLoadingMovies.value = false
+                        _topRatedMovieList.clear()
                         it.value?.results?.let { results ->
-                            _moviesCategoryData.addAll(results)
+                            _topRatedMovieList.addAll(results)
                         }
 
                     }
 
-                    is TmdbMoviesByCategoryResult.Error -> {
-                        _isLoadingMoviesCategory.value = false
-                        _errorLoadingMoviesCategory.value = true
-                        _emptyLoadingMoviesCategory.value = false
+                    is DashboardMoviesResult.Error -> {
+                        _isLoadingMovies.value = false
+                        _errorLoadingMovies.value = true
                     }
 
-                    is TmdbMoviesByCategoryResult.Loading -> {
-                        _isLoadingMoviesCategory.value = true
-                        _errorLoadingMoviesCategory.value = false
-                        _emptyLoadingMoviesCategory.value = false
+                    is DashboardMoviesResult.Loading -> {
+                        _isLoadingMovies.value = true
+                        _errorLoadingMovies.value = false
+                    }
+                }
+            }
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(2000)
+            fetchPopularMoviesUseCase("en-US", 1).collect {
+                Timber.tag("DashboardViewModel2").w("Result: " + it)
+                when (it) {
+                    is DashboardMoviesResult.Data -> {
+                        _popularMovieList.clear()
+                        it.value?.results?.let { results ->
+                            _popularMovieList.addAll(results)
+                        }
+
                     }
 
-                    is TmdbMoviesByCategoryResult.Empty -> {
-                        _isLoadingMoviesCategory.value = false
-                        _errorLoadingMoviesCategory.value = false
-                        _emptyLoadingMoviesCategory.value = true
+                    is DashboardMoviesResult.Error -> {
+                        _isLoadingMovies.value = false
+                    }
+
+                    is DashboardMoviesResult.Loading -> {
+                        _isLoadingMovies.value = true
+                    }
+                }
+            }
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(2000)
+            fetchUpcomingMoviesUseCase("en-US", 1).collect {
+                Timber.tag("DashboardViewModel2").w("Result: " + it)
+                when (it) {
+                    is UpcomingMoviesResult.Data -> {
+                        _upcomingMovieList.clear()
+                        it.value?.results?.let { results ->
+                            _upcomingMovieList.addAll(results)
+                        }
+
+                    }
+
+                    is UpcomingMoviesResult.Error -> {
+                        _isLoadingMovies.value = false
+                    }
+
+                    is UpcomingMoviesResult.Loading -> {
+                        _isLoadingMovies.value = true
                     }
                 }
             }
         }
     }
-
-     */
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
