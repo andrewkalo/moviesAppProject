@@ -28,10 +28,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+
 import net.arx.helloworldarx.R
 import net.arx.helloworldarx.data.tmdb.local.LocalMoviesByCategory
+import net.arx.helloworldarx.ui.moviesCategory.MoviesCategoryFragmentDirections
 import net.arx.helloworldarx.ui.moviesCategory.MoviesCategoryViewModel
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTypography
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnrememberedMutableState")

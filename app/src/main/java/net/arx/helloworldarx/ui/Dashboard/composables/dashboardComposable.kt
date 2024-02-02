@@ -78,9 +78,9 @@ fun DashboardUI(
                     )
                     TextButton(
                         onClick = {
-                            //MoviesCategory.TopTenMovies.let {
-                               // navController.navigate(DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView(it.value))
-                          //  }
+                            MoviesCategory.TopTenMovies.let {
+                                navController.navigate(DashboardFragmentDirections.actionMoviesDashboardViewToMoviesCategoryView(it.value))
+                            }
                         }
                     ) {
                         Text(
