@@ -51,10 +51,11 @@
         android:label="MoviesCategory"
         tools:layout="@layout/fragment_movies_category" />
     <action
-        android:id="@+id/action_moviesCategoryView_to_movieDashboardView"
-        app:destination="@id/moviesDashboardView" />
-    <action
-        android:id="@+id/action_moviesDashboardView_to_movieDetailsView"
+        android:id="@+id/action_moviesCategoryView_to_movieDetailsView"
         app:destination="@id/movieDetailsView" />
+    <argument
+        android:name="category"
+        app:argType="string"
+        app:nullable="false" />
 
 </navigation>

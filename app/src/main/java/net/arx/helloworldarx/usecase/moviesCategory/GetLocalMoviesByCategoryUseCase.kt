@@ -9,7 +9,7 @@ class GetLocalMoviesByCategoryUseCase @Inject constructor(private val repository
         return try {
             repository.fetchMoviesByCategory(categoryId)
         } catch (e: Exception) {
-            TmdbMoviesByCategoryResult.ErrorResult
+            TmdbMoviesByCategoryResult.Error("ERROR. No internet connection")
         }
     }
 }
