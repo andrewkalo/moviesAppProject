@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -104,37 +106,41 @@ fun DashboardUI(
                 else{
                     LazyRow {
                         items(viewModel.topRatedMovieList.take(10)) { movie ->
-                            Column(
+                            Card(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                    .width(180.dp)
+                                    .padding(8.dp)
+                                    .clickable(onClick = {
+                                        movie.id?.let {
+                                            navController.navigate(
+                                                DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
+                                                    it
+                                                )
+                                            )
+                                        }
+                                    }),
                             ) {
-                                Text(
-                                    text = movie.title.toString(),
-                                    fontWeight = FontWeight.Bold,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .wrapContentSize()
-                                        .padding(8.dp),
-                                )
-                                AsyncImage(
+                                Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .fillMaxHeight(0.5f)
-                                        .clickable(onClick = {
-                                            movie.id?.let {
-                                                navController.navigate(
-                                                    DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
-                                                        it
-                                                    )
-                                                )
-                                            }
-
-                                        }),
-                                    model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
-                                    contentDescription = null,
-                                )
+                                ) {
+                                    AsyncImage(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(0.5f),
+                                        model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
+                                        contentDescription = null,
+                                    )
+                                    Text(
+                                        text = movie.title.toString(),
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(8.dp)
+                                    )
+                                }
                             }
                         }
                     }
@@ -186,34 +192,41 @@ fun DashboardUI(
                         else{
                             LazyRow {
                                 items(viewModel.popularMovieList) { movie ->
-                                    Column(
+                                    Card(
                                         modifier = Modifier
-                                            .fillMaxWidth()
+                                            .width(180.dp)
+                                            .padding(8.dp)
+                                            .clickable(onClick = {
+                                                movie.id?.let {
+                                                    navController.navigate(
+                                                        DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
+                                                            it
+                                                        )
+                                                    )
+                                                }
+                                            }),
                                     ) {
-                                        Text(
-                                            text = movie.title.toString(), // Replace this with the actual title logic
-                                            fontWeight = FontWeight.Bold,
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(8.dp)
-                                        )
-                                        AsyncImage(
+                                        Column(
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .fillMaxHeight(0.5f)
-                                                .clickable(onClick = {
-                                                    movie.id?.let {
-                                                        navController.navigate(
-                                                            DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
-                                                                it
-                                                            )
-                                                        )
-                                                    }
-                                                }),
-                                            model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
-                                            contentDescription = null,
-                                        )
+                                        ) {
+                                            AsyncImage(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .fillMaxHeight(0.5f),
+                                                model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
+                                                contentDescription = null,
+                                            )
+                                            Text(
+                                                text = movie.title.toString(),
+                                                fontWeight = FontWeight.Bold,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(8.dp)
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -266,35 +279,41 @@ fun DashboardUI(
                 else{
                     LazyRow {
                         items(viewModel.upcomingMovieList) { movie ->
-                            Column(
+                            Card(
                                 modifier = Modifier
-                                    .fillMaxWidth()
+                                    .width(180.dp)
+                                    .padding(8.dp)
+                                    .clickable(onClick = {
+                                        movie.id?.let {
+                                            navController.navigate(
+                                                DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
+                                                    it
+                                                )
+                                            )
+                                        }
+                                    }),
                             ) {
-                                Text(
-                                    text = movie.title.toString(),
-                                    fontWeight = FontWeight.Bold,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(8.dp)
-                                )
-                                AsyncImage(
+                                Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .fillMaxHeight(0.5f)
-                                        .clickable(onClick = {
-                                            movie.id?.let {
-                                                navController.navigate(
-                                                    DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
-                                                        it
-                                                    )
-                                                )
-                                            }
-
-                                        }),
-                                    model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
-                                    contentDescription = null,
-                                )
+                                ) {
+                                    AsyncImage(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(0.5f),
+                                        model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
+                                        contentDescription = null,
+                                    )
+                                    Text(
+                                        text = movie.title.toString(),
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(8.dp)
+                                    )
+                                }
                             }
                         }
                     }

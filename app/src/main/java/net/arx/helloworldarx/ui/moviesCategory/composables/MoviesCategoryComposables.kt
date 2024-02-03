@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
@@ -31,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import net.arx.helloworldarx.ui.moviesCategory.MoviesCategoryViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import net.arx.helloworldarx.ui.Dashboard.DashboardFragmentDirections
 import net.arx.helloworldarx.ui.moviesCategory.MoviesCategoryFragmentDirections
 import timber.log.Timber
 
@@ -61,150 +63,146 @@ fun MoviesCategoryScreen(
                     }
                 })
         }) {
-        if (category == "Top 10 Movies") {
-            if(viewModel.isLoadingMovies.value){
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(align = Alignment.Center)
-                        .padding(8.dp)
-                )
-            }else if(viewModel.errorLoadingMovies.value){
-                Text(text = "Error Fetching the Movies. Please check your internet connection!")
-            }else{
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(it)
-                ) {
-
-
-                    items(viewModel.topRatedMovieList) { movie ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = movie.title.toString(),
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
+        if (viewModel.isLoadingMovies.value) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentSize(align = Alignment.Center)
+                    .padding(8.dp)
+            )
+        } else if (viewModel.errorLoadingMovies.value) {
+            Text(text = "Error Fetching the Movies. Please check your internet connection!")
+        } else {
+            when (category) {
+                "Top 10 Movies" -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it)
+                    ) {
+                        items(viewModel.topRatedMovieList) { movie ->
+                            Card(
                                 modifier = Modifier
-                                    .fillMaxWidth()
+                                    .fillMaxWidth(1.0f)
                                     .padding(8.dp)
-                            )
-                            AsyncImage(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(0.5f)
                                     .clickable(onClick = {
                                         movie.id?.let {
                                             navController.navigate(
-                                                MoviesCategoryFragmentDirections.actionMoviesCategoryViewToMovieDetailsView(it))
+                                                DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
+                                                    it
+                                                )
+                                            )
                                         }
-
                                     }),
-                                model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
-                                contentDescription = null,
-                            )
+                            ){
+                                Column(
+                                ){
+                                    AsyncImage(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(1.0f)
+                                            .clickable(onClick = {
+                                                movie.id?.let {
+                                                    navController.navigate(
+                                                        MoviesCategoryFragmentDirections.actionMoviesCategoryViewToMovieDetailsView(
+                                                            it
+                                                        )
+                                                    )
+                                                }
+
+                                            }),
+                                        model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
+                                        contentDescription = null,
+                                    )
+                                    Text(
+                                        text = movie.title.toString(),
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(8.dp)
+                                    )
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }else if(category == "Popular Movies"){
-            if(viewModel.isLoadingMovies.value){
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(align = Alignment.Center)
-                        .padding(8.dp)
-                )
-            }else if(viewModel.errorLoadingMovies.value){
-                Text(text = "Error Fetching the Movies. Please check your internet connection!")
-            }else{
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(it)
-                ) {
-
-
-                    items(viewModel.popularMovieList) { movie ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = movie.title.toString(),
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
+                "Popular Movies" -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it)
+                    ) {
+                        items(viewModel.popularMovieList) { movie ->
+                            Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(8.dp)
-                            )
-                            AsyncImage(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(0.5f)
-                                    .clickable(onClick = {
-                                        movie.id?.let {
-                                            navController.navigate(
-                                                MoviesCategoryFragmentDirections.actionMoviesCategoryViewToMovieDetailsView(it))
+                            ) {
+                                Text(
+                                    text = movie.title.toString(),
+                                    fontWeight = FontWeight.Bold,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp)
+                                )
+                                AsyncImage(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(0.5f)
+                                        .clickable(onClick = {
+                                            movie.id?.let {
+                                                navController.navigate(
+                                                    MoviesCategoryFragmentDirections.actionMoviesCategoryViewToMovieDetailsView(
+                                                        it
+                                                    )
+                                                )
+                                            }
 
-                                        }
-
-                                    }),
-                                model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
-                                contentDescription = null,
-                            )
+                                        }),
+                                    model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
+                                    contentDescription = null,
+                                )
+                            }
                         }
                     }
                 }
-            }
-        }else if(category == "Upcoming Movies"){
-            if(viewModel.isLoadingMovies.value){
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(align = Alignment.Center)
-                        .padding(8.dp)
-                )
-            }else if(viewModel.errorLoadingMovies.value){
-                Text(text = "Error Fetching the Movies. Please check your internet connection!")
-            }else{
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(it)
-                ) {
-
-
-                    items(viewModel.upcomingMovieList) { movie ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = movie.title.toString(),
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
+                "Upcoming Movies" -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it)
+                    ) {
+                        items(viewModel.upcomingMovieList) { movie ->
+                            Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(8.dp)
-                            )
-                            AsyncImage(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(0.5f)
-                                    .clickable(onClick = {
-                                        movie.id?.let {
-                                            navController.navigate(
-                                                MoviesCategoryFragmentDirections.actionMoviesCategoryViewToMovieDetailsView(it))
-                                        }
-
-                                    }),
-                                model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
-                                contentDescription = null,
-                            )
+                            ) {
+                                Text(
+                                    text = movie.title.toString(),
+                                    fontWeight = FontWeight.Bold,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp)
+                                )
+                                AsyncImage(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(0.5f)
+                                        .clickable(onClick = {
+                                            movie.id?.let {
+                                                navController.navigate(
+                                                    MoviesCategoryFragmentDirections.actionMoviesCategoryViewToMovieDetailsView(
+                                                        it
+                                                    )
+                                                )
+                                            }
+                                        }),
+                                    model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
+                                    contentDescription = null,
+                                )
+                            }
                         }
                     }
                 }
@@ -212,6 +210,7 @@ fun MoviesCategoryScreen(
         }
     }
 }
+
 
 
 
