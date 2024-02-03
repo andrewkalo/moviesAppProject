@@ -42,15 +42,15 @@ class DashboardViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(2000)
+            delay(1000)
             fetchTopRatedMoviesUseCase("en-US", 1).collect {
-                Timber.tag("DashboardViewModel").w("Result: " + it)
+                Timber.tag("DashboardViewModel").w("Result: %s", it)
                 when (it) {
                     is DashboardMoviesResult.Data -> {
                         _isLoadingMovies.value = false
                         _errorLoadingMovies.value = false
                         _topRatedMovieList.clear()
-                        it.value?.results?.let { results ->
+                        it.value.results?.let { results ->
                             _topRatedMovieList.addAll(results)
                         }
 
@@ -70,13 +70,13 @@ class DashboardViewModel @Inject constructor(
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            delay(2000)
+            delay(1000)
             fetchPopularMoviesUseCase("en-US", 1).collect {
-                Timber.tag("DashboardViewModel2").w("Result: " + it)
+                Timber.tag("DashboardViewModel2").w("Result: %s", it)
                 when (it) {
                     is DashboardMoviesResult.Data -> {
                         _popularMovieList.clear()
-                        it.value?.results?.let { results ->
+                        it.value.results?.let { results ->
                             _popularMovieList.addAll(results)
                         }
 
@@ -94,13 +94,13 @@ class DashboardViewModel @Inject constructor(
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            delay(2000)
+            delay(1000)
             fetchUpcomingMoviesUseCase("en-US",1).collect {
-                Timber.tag("DashboardViewModel2").w("Result: " + it)
+                Timber.tag("DashboardViewModel2").w("Result: %s", it)
                 when (it) {
                     is UpcomingMoviesResult.Data -> {
                         _upcomingMovieList.clear()
-                        it.value?.results?.let { results ->
+                        it.value.results?.let { results ->
                             _upcomingMovieList.addAll(results)
                         }
 

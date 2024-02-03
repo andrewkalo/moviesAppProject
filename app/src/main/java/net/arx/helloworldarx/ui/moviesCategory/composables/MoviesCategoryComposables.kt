@@ -63,16 +63,7 @@ fun MoviesCategoryScreen(
                     }
                 })
         }) {
-        if (viewModel.isLoadingMovies.value) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentSize(align = Alignment.Center)
-                    .padding(8.dp)
-            )
-        } else if (viewModel.errorLoadingMovies.value) {
-            Text(text = "Error Fetching the Movies. Please check your internet connection!")
-        } else {
+
             when (category) {
                 "Top 10 Movies" -> {
                     LazyColumn(
@@ -81,6 +72,70 @@ fun MoviesCategoryScreen(
                             .padding(it)
                     ) {
                         items(viewModel.topRatedMovieList) { movie ->
+                            if (viewModel.isLoadingMovies.value) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .wrapContentSize(align = Alignment.TopCenter)
+                                        .padding(8.dp)
+                                )
+                            } else if (viewModel.errorLoadingMovies.value) {
+                                Text(text = "Error Fetching the Movies. Please check your internet connection!")
+                            } else {
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth(1.0f)
+                                        .padding(8.dp)
+                                        .clickable(onClick = {
+                                            movie.id?.let {
+                                                navController.navigate(
+                                                    DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
+                                                        it
+                                                    )
+                                                )
+                                            }
+                                        }),
+                                ){
+                                    Column(
+                                    ){
+                                        AsyncImage(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .fillMaxHeight(1.0f)
+                                                .clickable(onClick = {
+                                                    movie.id?.let {
+                                                        navController.navigate(
+                                                            MoviesCategoryFragmentDirections.actionMoviesCategoryViewToMovieDetailsView(
+                                                                it
+                                                            )
+                                                        )
+                                                    }
+
+                                                }),
+                                            model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
+                                            contentDescription = null,
+                                        )
+                                        Text(
+                                            text = movie.title.toString(),
+                                            fontWeight = FontWeight.Bold,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(8.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                "Popular Movies" -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it)
+                    ) {
+                        items(viewModel.popularMovieList) { movie ->
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth(1.0f)
@@ -127,46 +182,6 @@ fun MoviesCategoryScreen(
                         }
                     }
                 }
-                "Popular Movies" -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(it)
-                    ) {
-                        items(viewModel.popularMovieList) { movie ->
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            ) {
-                                Text(
-                                    text = movie.title.toString(),
-                                    fontWeight = FontWeight.Bold,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(8.dp)
-                                )
-                                AsyncImage(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .fillMaxHeight(0.5f)
-                                        .clickable(onClick = {
-                                            movie.id?.let {
-                                                navController.navigate(
-                                                    MoviesCategoryFragmentDirections.actionMoviesCategoryViewToMovieDetailsView(
-                                                        it
-                                                    )
-                                                )
-                                            }
-
-                                        }),
-                                    model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
-                                    contentDescription = null,
-                                )
-                            }
-                        }
-                    }
-                }
                 "Upcoming Movies" -> {
                     LazyColumn(
                         modifier = Modifier
@@ -174,34 +189,48 @@ fun MoviesCategoryScreen(
                             .padding(it)
                     ) {
                         items(viewModel.upcomingMovieList) { movie ->
-                            Column(
+                            Card(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                            ) {
-                                Text(
-                                    text = movie.title.toString(),
-                                    fontWeight = FontWeight.Bold,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(8.dp)
-                                )
-                                AsyncImage(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .fillMaxHeight(0.5f)
-                                        .clickable(onClick = {
-                                            movie.id?.let {
-                                                navController.navigate(
-                                                    MoviesCategoryFragmentDirections.actionMoviesCategoryViewToMovieDetailsView(
-                                                        it
-                                                    )
+                                    .fillMaxWidth(1.0f)
+                                    .padding(8.dp)
+                                    .clickable(onClick = {
+                                        movie.id?.let {
+                                            navController.navigate(
+                                                DashboardFragmentDirections.actionMoviesDashboardViewToMovieDetailsView(
+                                                    it
                                                 )
-                                            }
-                                        }),
-                                    model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
-                                    contentDescription = null,
-                                )
+                                            )
+                                        }
+                                    }),
+                            ){
+                                Column(
+                                ){
+                                    AsyncImage(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(1.0f)
+                                            .clickable(onClick = {
+                                                movie.id?.let {
+                                                    navController.navigate(
+                                                        MoviesCategoryFragmentDirections.actionMoviesCategoryViewToMovieDetailsView(
+                                                            it
+                                                        )
+                                                    )
+                                                }
+
+                                            }),
+                                        model = "https://image.tmdb.org/t/p/w500/${movie.poster_path}",
+                                        contentDescription = null,
+                                    )
+                                    Text(
+                                        text = movie.title.toString(),
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(8.dp)
+                                    )
+                                }
                             }
                         }
                     }
@@ -209,7 +238,6 @@ fun MoviesCategoryScreen(
             }
         }
     }
-}
 
 
 

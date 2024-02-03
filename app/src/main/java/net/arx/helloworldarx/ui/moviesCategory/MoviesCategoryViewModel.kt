@@ -44,7 +44,7 @@ class MoviesCategoryViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(50)
+            delay(500)
             fetchTopRatedMoviesUseCase("en-US", 1).collect {
                 Timber.tag("DashboardViewModel").w("Result: %s", it)
                 when (it) {
@@ -69,32 +69,37 @@ class MoviesCategoryViewModel @Inject constructor(
             }
         }
         viewModelScope.launch(Dispatchers.IO) {
-            delay(50)
+            delay(500)
             fetchPopularMoviesUseCase("en-US", 1).collect {
                 Timber.tag("DashboardViewModel2").w("Result: %s", it)
                 when (it) {
                     is DashboardMoviesResult.Data -> {
+                        _isLoadingMovies.value = false
+                        _errorLoadingMovies.value = false
                         _popularMovieList.clear()
                         it.value.results?.let { results ->
                             _popularMovieList.addAll(results)
                         }
-
                     }
                     is DashboardMoviesResult.Error -> {
                         _isLoadingMovies.value = false
+                        _errorLoadingMovies.value = true
                     }
                     is DashboardMoviesResult.Loading -> {
                         _isLoadingMovies.value = true
+                        _errorLoadingMovies.value = false
                     }
                 }
             }
         }
         viewModelScope.launch(Dispatchers.IO) {
-            delay(50)
+            delay(500)
             fetchUpcomingMoviesUseCase("en-US", 1).collect {
                 Timber.tag("DashboardViewModel2").w("Result: %s", it)
                 when (it) {
                     is UpcomingMoviesResult.Data -> {
+                        _isLoadingMovies.value = false
+                        _errorLoadingMovies.value = false
                         _upcomingMovieList.clear()
                         it.value.results?.let { results ->
                             _upcomingMovieList.addAll(results)
@@ -102,9 +107,11 @@ class MoviesCategoryViewModel @Inject constructor(
                     }
                     is UpcomingMoviesResult.Error -> {
                         _isLoadingMovies.value = false
+                        _errorLoadingMovies.value = true
                     }
                     is UpcomingMoviesResult.Loading -> {
                         _isLoadingMovies.value = true
+                        _errorLoadingMovies.value = false
                     }
                 }
             }
