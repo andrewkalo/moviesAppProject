@@ -25,8 +25,15 @@ class MovieDetailsViewModel @Inject constructor(
     private var _movieData = mutableStateOf<LocalMovie?>(null)
     val movieData: State<LocalMovie?> = _movieData
 
-    var _movieCredits = mutableStateListOf<LocalMovieCredits?>()
+    private var _movieCredits = mutableStateListOf<LocalMovieCredits?>()
     val movieCredits: SnapshotStateList<LocalMovieCredits?> = _movieCredits
+
+    private var _isMovieCreditsLoading = mutableStateOf(true)
+    val isMovieCreditsLoading: State<Boolean> = _isMovieCreditsLoading
+
+    private var _isMovieDataLoading = mutableStateOf(true)
+    val isMovieDataLoading: State<Boolean> = _isMovieDataLoading
+
 
     fun getCredits(movieId: Int){
         viewModelScope.launch {
@@ -36,6 +43,7 @@ class MovieDetailsViewModel @Inject constructor(
                     is TmdbMovieCreditsResult.DefaultResult ->{
                         _movieCredits.clear()
                         _movieCredits.addAll(this.movieCredits)
+                        _isMovieCreditsLoading.value = false
                     }
                     is TmdbMovieCreditsResult.ErrorResult ->{
                         _movieCredits.clear()
@@ -53,15 +61,11 @@ class MovieDetailsViewModel @Inject constructor(
                 when(this){
                     is TmdbMovieResult.SuccessMovieResult -> {
                         _movieData.value = this.movieDetails
+                        _isMovieDataLoading.value = false
                     }
                     is TmdbMovieResult.NetworkWaringResult ->{
                         _movieData.value = this.movieDetails
-                    }
-                    is TmdbMovieResult.NetworkError -> {
-                        _movieData.value = null
-                    }
-                    is TmdbMovieResult.ApiError ->{
-                        _movieData.value = null
+                        _isMovieDataLoading.value = false
                     }
                     is TmdbMovieResult.UnknownError ->{
                         _movieData.value = null

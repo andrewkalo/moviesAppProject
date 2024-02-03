@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -17,12 +18,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -36,38 +40,50 @@ import net.arx.helloworldarx.ui.movieDetails.MovieDetailsViewModel
 import net.arx.helloworldarx.ui.theme.HelloWorldArxTypography
 import androidx.compose.runtime.State
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import net.arx.helloworldarx.data.tmdb.local.LocalMovieCredits
+import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailsUI(
-    movieData: State<LocalMovie?>,
-    movieCreditsState: SnapshotStateList<LocalMovieCredits?>,
     navigateUp: ()->Unit
-) { //TODO Show loading thingy while fetching data, break it
-    //val viewModel = hiltViewModel<MovieDetailsViewModel>()
-
+) {
+    val viewModel:MovieDetailsViewModel = hiltViewModel()
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { movieData.value?.let { Text(text = it.title) } }, //TODO MAKE IT NON NULLABLE BY ADDING A LOADING STATE
+                title = { viewModel.movieData.value?.let { Text(text = it.title) } },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
                 navigationIcon = {
                     IconButton(onClick = navigateUp) {
                         Icon(Icons.Default.ArrowBack, contentDescription = null)
                     }
                 })
-        }) {
-        movieData.value?.backdrop_path?.let {
+        }) {paddingValues ->
+        viewModel.movieData.value?.backdrop_path?.let {
             backDrop ->
-            Column(modifier = Modifier.fillMaxSize()) {
-                ShowImageTitle(it, backDrop)
-                ShowRattingAndPopularity(
-                    popularity = movieData.value!!.popularity.toString(),
-                    voteAverage = movieData.value!!.voteAverage.toString()
-                )
-                ShowActors(movieCreditsState = movieCreditsState)
-                ShowDescription(description = movieData.value!!.description)
+            if(viewModel.isMovieDataLoading.value || viewModel.isMovieCreditsLoading.value){
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .wrapContentSize(align = Alignment.Center))
+            }else{
+                Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+                    ShowImageTitle(backDrop)
+                    ShowRattingAndPopularity(
+                        popularity = viewModel.movieData.value!!.popularity.toString(),
+                        voteAverage = viewModel.movieData.value!!.voteAverage.toString()
+                    )
+                    ShowActors(movieCreditsState = viewModel.movieCredits)
+                    ShowDescription(description = viewModel.movieData.value!!.description)
+                }
             }
+
         }
     }
         
@@ -77,9 +93,10 @@ fun MovieDetailsUI(
 fun ShowActors(movieCreditsState: SnapshotStateList<LocalMovieCredits?>){
     LazyRow {
         items(movieCreditsState) { credit ->
-            Log.d("MyLog", "Credit ${credit!!.movieId}")
-            if (credit.profilePath != null) {
-                ActorView(credit)
+            if (credit != null) {
+                if (credit.profilePath != null) {
+                    ActorView(credit)
+                }
             }
         }
     }
@@ -90,8 +107,10 @@ fun ShowActors(movieCreditsState: SnapshotStateList<LocalMovieCredits?>){
 fun ShowDescription(description: String){
         Text(
             text = description,
-            style = HelloWorldArxTypography.headlineMedium,
-            modifier = Modifier.padding(20.dp).verticalScroll(rememberScrollState())
+            style = HelloWorldArxTypography.bodyLarge,
+            modifier = Modifier
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState())
         )
     
 }
@@ -102,7 +121,7 @@ fun ShowRattingAndPopularity(popularity: String,voteAverage: String){
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp), horizontalArrangement = Arrangement.SpaceAround
+            .padding(5.dp), horizontalArrangement = Arrangement.SpaceAround
     ) {
         Spacer(modifier = Modifier.padding(10.dp))
         Column {
@@ -134,8 +153,8 @@ fun ShowRattingAndPopularity(popularity: String,voteAverage: String){
 }
 
 @Composable
-fun ShowImageTitle(paddingValues: PaddingValues,backDropPath: String){
-    Column(modifier = Modifier.padding(paddingValues)) {
+fun ShowImageTitle(backDropPath: String){
+    Column(modifier = Modifier.fillMaxWidth()) {
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
@@ -144,8 +163,6 @@ fun ShowImageTitle(paddingValues: PaddingValues,backDropPath: String){
             contentDescription = null,
             //contentScale = ContentScale.Crop
         )
-        //TODO MAKE IT NON NULLABLE BY ADDING A LOADING STATE
-        //movieData.value?.let { it1 -> Text(text = it1.releaseDate) } //TODO MAKE IT NON NULLABLE BY ADDING A LOADING STATE
     }
 }
 

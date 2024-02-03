@@ -14,7 +14,7 @@ class TmdbResponseMapper @Inject constructor(){
             true -> {
                 TmdbMovieResult.SuccessMovieResult(localMovie)
             }
-            false -> TmdbMovieResult.ApiError
+            false -> TmdbMovieResult.UnknownError
         }
     }
 

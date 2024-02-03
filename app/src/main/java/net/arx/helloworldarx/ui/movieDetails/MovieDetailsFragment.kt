@@ -20,14 +20,12 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     override fun getViewBinding(): FragmentMovieDetailsBinding = FragmentMovieDetailsBinding.inflate(layoutInflater)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO Here we get the navigation arguments
         val args: MovieDetailsFragmentArgs by navArgs()
         val movieId = args.movieId
 
         val navigateUp: ()->Unit = {
             findNavController().navigateUp()
         }
-
         viewModel.getMovie(movieId)
         viewModel.getCredits(movieId)
         ShowMovieDetailsUI(navigateUp)
@@ -37,8 +35,6 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
             movieDetailsView.setContent {
                 HelloWorldArxTheme {
                     MovieDetailsUI(
-                        viewModel.movieData,
-                        viewModel.movieCredits,
                         navigateUp
                     )
                 }
